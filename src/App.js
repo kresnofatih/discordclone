@@ -1,23 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react'
+import './App.css'
+import Entry from './Entry'
+import fire from './Fire'
+import firebase from 'firebase'
 
 function App() {
+  // state
+  const [user, setUser] = useState('')
+
+  // login
+  const login = () => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    fire
+      .auth()
+      .signInWithPopup(provider)
+      .then((result)=>{
+          const token = result.credential.accessToken;
+          const user = result.user;
+      })
+      .catch((error)=>{
+          console.log(error);
+      });
+  }
+
+  // authlistener
+  const authListener = () => {
+    fire
+      .auth()
+      .onAuthStateChanged((user)=>{
+        if(user){
+          setUser(user);
+        } else {
+          setUser('');
+        }
+      })
+  }
+
+  // logout
+  const logout = () => {
+    fire.auth().signOut();
+  };
+
+  // authlistener on refresh
+  useEffect(()=>{
+    authListener();
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {user!=='' ? (
+        <div>logged in
+          <button
+            onClick={logout}
+          >logout</button>
+        </div>
+      ) : (        
+        <Entry login={login}/>
+      )}
     </div>
   );
 }
