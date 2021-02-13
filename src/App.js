@@ -7,7 +7,7 @@ import firebase from 'firebase'
 function App() {
   // states
   const [user, setUser] = useState('') // google user auth data
-  const [profile, setProfile] = useState('') // firestore user auth data
+  const [profile, setProfile] = useState({}) // firestore user auth data
 
   // function: if first time logged, create a user doc in firestore
   const initializeUserDataInFireStore = async (user) => {
@@ -62,6 +62,7 @@ function App() {
           // if first time logged, create a user doc in firestore
           initializeUserDataInFireStore(user);
           updateUserStatusInFirestore(user, 'login');
+          profileListener(user);
       })
       .catch((error)=>{
           console.log(error);
@@ -81,15 +82,15 @@ function App() {
       })
   }
 
-  // profileListener
-  const profileListener = () => {
+  // profileSetter
+  const profileListener = (user) => {
     fire
       .firestore()
       .collection('users')
       .doc(user.uid)
       .onSnapshot(docSnapshot=>{
         setProfile(docSnapshot.data());
-      })
+      });
   }
 
   // logout
@@ -99,16 +100,15 @@ function App() {
     })
   };
 
-  // authlistener on refresh
+  // functions being run on refresh
   useEffect(()=>{
     authListener();
-    profileListener();
   }, [])
 
   return (
     <div className="App">
       {user!=='' ? (
-        <div>logged in
+        <div>{profile.displayName}
           <button
             onClick={logout}
           >logout</button>
