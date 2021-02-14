@@ -5,24 +5,56 @@ import fire from '../../Fire'
 import EditIcon from '@material-ui/icons/Edit'
 import { grey } from '@material-ui/core/colors'
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function Profile() {
-    const profile = useContext(ProfileContext)
-    const [open, setOpen] = useState(false)
-    const [newDisplayName, setNewDisplayName] = useState('')
-
+    // get profile context from App.js
+    const profile = useContext(ProfileContext) 
+    
+    // update displayName states & methods
+    const [open, setOpen] = useState(false) // when true=>dialog opens, false=>closes
     const openDisplayNameInput = () => {
-        setOpen(true);
+        setOpen(true);  // opens newdisplayName dialog
     }
     const closeDisplayNameInput = () => {
-        setOpen(false);
+        setOpen(false); // closes newdisplayName dialog
+    }
+    const [newDisplayName, setNewDisplayName] = useState('') // value container for new displayName
+    const storeNewDisplayNameToFirestore = () => {
+        fire
+            .firestore()
+            .collection('users')
+            .doc(profile.uid)
+            .update({
+                displayName: newDisplayName
+            });
     }
 
+    // update photoURL methods
+    const updatePhotoURLToFirestore = (e) => {
+        const file = e.target.files[0];
+        const storageRef = fire.storage().ref();
+        const d = new Date();
+        const fileRef = storageRef.child('users/photoURL/'+profile.uid+'/'+d.toLocaleString().replace("/", "_").replace("/", "_").replace(" ", "_"));
+        fileRef
+            .put(file)  // store photo File to Firebase Storage
+            .then(()=>{
+                fileRef
+                    .getDownloadURL()
+                    .then(url=>{
+                        fire
+                            .firestore()
+                            .collection('users')
+                            .doc(profile.uid)
+                            .update({
+                                photoURL: url
+                            });     // store photo URL to firebase firestore
+                    });
+            });
+    }
     return (
         <div className="profile">
             <div className="profile_breadcrumbs">
@@ -36,25 +68,7 @@ function Profile() {
                         type="file"
                         id="file"
                         onChange={(e)=>{
-                            const file = e.target.files[0];
-                            const storageRef = fire.storage().ref();
-                            const d = new Date();
-                            const fileRef = storageRef.child('users/photoURL/'+profile.uid+'/'+d.toLocaleString().replace("/", "_").replace("/", "_").replace(" ", "_"));
-                            fileRef
-                                .put(file)
-                                .then(()=>{
-                                    fileRef
-                                        .getDownloadURL()
-                                        .then(url=>{
-                                            fire
-                                                .firestore()
-                                                .collection('users')
-                                                .doc(profile.uid)
-                                                .update({
-                                                    photoURL: url
-                                                });
-                                        });
-                                });
+                            updatePhotoURLToFirestore(e);
                         }}
                     />
                     <label for="file">
@@ -111,13 +125,8 @@ function Profile() {
                         </Button>
                         <Button onClick={()=>{
                             closeDisplayNameInput();
-                            fire
-                                .firestore()
-                                .collection('users')
-                                .doc(profile.uid)
-                                .update({
-                                    displayName: newDisplayName
-                                });
+                            storeNewDisplayNameToFirestore();
+                            setNewDisplayName('');
                         }} color="primary">
                             <p className="dialogtitle2">
                                 Save
