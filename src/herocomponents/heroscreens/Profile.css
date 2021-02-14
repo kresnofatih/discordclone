@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+
+.profile {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2C2F33;
+}
+.profile_breadcrumbs {
+    margin: 0;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.profile_breadcrumbs h2 {
+    margin: 0;
+    padding: 10px 20px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 20px;
+    color: white;
+    background-color: #7289DA;
+}
+.profile_content {
+    margin: 0;
+    margin-top: 50px;
+    padding: 30px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:#23272A;
+    border-radius: 5px;
+}
+.profile_content img {
+    margin: 0;
+    padding: 0;
+    height: 100px;
+    width: 100px;
+    border-radius: 50ch;
+}
+
+.profile_content_item {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 15px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile_content_field {
+    display: flex;
+    flex-direction: column;
+    background-color:#23272A;
+}
+.profile_content_placeholder {
+    margin: 0;
+    padding: 0px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+}
+.profile_content_fieldvalue {
+    align-items: center;
+    margin: 0;
+    padding: 0px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: rgb(170, 170, 170);
+}
+.profile_content_photocontainer {
+    margin-bottom: 30px;
+}
+.hidden_pic_input {
+    display: none;
+}

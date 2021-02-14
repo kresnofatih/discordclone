@@ -3,6 +3,13 @@ import './App.css'
 import Entry from './Entry'
 import fire from './Fire'
 import firebase from 'firebase'
+import Hero from './Hero'
+
+// context to provide profile data
+export const ProfileContext = React.createContext() 
+
+// context to provide logout functionality
+export const LogoutContext = React.createContext()
 
 function App() {
   // states
@@ -62,7 +69,6 @@ function App() {
           // if first time logged, create a user doc in firestore
           initializeUserDataInFireStore(user);
           updateUserStatusInFirestore(user, 'login');
-          profileListener(user);
       })
       .catch((error)=>{
           console.log(error);
@@ -76,6 +82,7 @@ function App() {
       .onAuthStateChanged((user)=>{
         if(user){
           setUser(user);
+          profileListener(user);
         } else {
           setUser('');
         }
@@ -108,11 +115,11 @@ function App() {
   return (
     <div className="App">
       {user!=='' ? (
-        <div>{profile.displayName}
-          <button
-            onClick={logout}
-          >logout</button>
-        </div>
+        <ProfileContext.Provider value={profile}>
+          <LogoutContext.Provider value={logout}>
+            <Hero/>
+          </LogoutContext.Provider>
+        </ProfileContext.Provider>
       ) : (        
         <Entry login={login}/>
       )}
