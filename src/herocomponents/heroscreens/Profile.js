@@ -1,12 +1,28 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import './Profile.css'
 import { ProfileContext } from '../../App'
+import fire from '../../Fire'
 import EditIcon from '@material-ui/icons/Edit'
 import { grey } from '@material-ui/core/colors'
-import fire from '../../Fire'
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 function Profile() {
     const profile = useContext(ProfileContext)
+    const [open, setOpen] = useState(false)
+    const [newDisplayName, setNewDisplayName] = useState('')
+
+    const openDisplayNameInput = () => {
+        setOpen(true);
+    }
+    const closeDisplayNameInput = () => {
+        setOpen(false);
+    }
+
     return (
         <div className="profile">
             <div className="profile_breadcrumbs">
@@ -50,21 +66,74 @@ function Profile() {
                         <p className="profile_content_placeholder">UID:</p>
                         <p className="profile_content_fieldvalue">{profile.uid}</p>
                     </div>
-                    <EditIcon style={{fontSize: 20, color: grey[50]}}/>
+                    <label>
+                        <EditIcon style={{fontSize: 20, color: grey[700]}}/>
+                    </label>
                 </div>
                 <div className="profile_content_item">
                     <div className="profile_content_field">
                         <p className="profile_content_placeholder">DISPLAY NAME:</p>
                         <p className="profile_content_fieldvalue">{profile.displayName}</p>
                     </div>
-                    <EditIcon style={{fontSize: 20, color: grey[50]}}/>
+                    <label onClick={openDisplayNameInput}>
+                        <EditIcon style={{fontSize: 20, color: grey[50]}}/>
+                    </label>
+                    <Dialog 
+                        open={open} 
+                        onClose={closeDisplayNameInput} 
+                        aria-labelledby="form-dialog-title"
+                        PaperProps={{
+                            style: {
+                                backgroundColor: "#23272A",
+                                boxShadow: "none"
+                            },
+                        }}
+                    >
+                        <DialogTitle id="form-dialog-title">
+                            <p className="dialogtitle1">
+                                Change Display Name
+                            </p>
+                        </DialogTitle>
+                        <DialogContent>
+                            <input
+                                className="dialoginput"
+                                type="text"
+                                value={newDisplayName}
+                                placeholder="New Display Name.."
+                                onChange={(e)=>setNewDisplayName(e.target.value)}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={closeDisplayNameInput} color="primary">
+                            <p className="dialogtitle2">
+                                Cancel
+                            </p>
+                        </Button>
+                        <Button onClick={()=>{
+                            closeDisplayNameInput();
+                            fire
+                                .firestore()
+                                .collection('users')
+                                .doc(profile.uid)
+                                .update({
+                                    displayName: newDisplayName
+                                });
+                        }} color="primary">
+                            <p className="dialogtitle2">
+                                Save
+                            </p>
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
                 <div className="profile_content_item">
                     <div className="profile_content_field">
                         <p className="profile_content_placeholder">EMAIL:</p>
                         <p className="profile_content_fieldvalue">{profile.email}</p>
                     </div>
-                    <EditIcon style={{fontSize: 20, color: grey[50]}}/>
+                    <label>
+                        <EditIcon style={{fontSize: 20, color: grey[700]}}/>
+                    </label>
                 </div>
             </div>
         </div>
