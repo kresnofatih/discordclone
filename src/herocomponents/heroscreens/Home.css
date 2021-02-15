@@ -9,21 +9,6 @@
     align-items: center;
     background-color: #2C2F33;
 }
-.home_breadcrumbs {
-    margin: 0;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-.home_breadcrumbs h2 {
-    margin: 0;
-    padding: 10px 20px;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 20px;
-    color: #7289DA;
-    background-color: #23272A;
-}
 .home_content {
     margin: 0;
     padding: 20px;
@@ -52,4 +37,48 @@
     font-size: 18px;
     font-weight: 600;
     color: white;
+}
+.dialogtitle1 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #7289DA;
+    text-transform: capitalize;
+}
+.dialogtitle2 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-transform: capitalize;
+}
+.addfriendsdialoginput {
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: white;
+    background-color: #23272A;
+    border: none;
+    border-bottom: 2px solid #7289DA;
+    outline: none;
+}
+.addfriendslabel:hover {
+    cursor: pointer;
+}
+.addfriendscontentinput {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.addfriendscontent {
+    display: flex;
+    flex-direction: column;
 }

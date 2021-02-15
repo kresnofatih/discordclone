@@ -9,6 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Breadcrumb from '../Breadcrumb'
 
 function Profile() {
     // get profile context from App.js
@@ -57,9 +58,7 @@ function Profile() {
     }
     return (
         <div className="profile">
-            <div className="profile_breadcrumbs">
-                <h2>Profile.</h2>
-            </div>
+            <Breadcrumb address="Profile."/>
             <div className="profile_content">
                 <div className="profile_content_item profile_content_photocontainer">
                     <img src={profile.photoURL}/>

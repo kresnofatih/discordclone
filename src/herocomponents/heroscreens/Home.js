@@ -1,10 +1,51 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './Home.css'
 import Friend from '../Friend'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { grey } from '@material-ui/core/colors'
+import Breadcrumb from '../Breadcrumb';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import SearchIcon from '@material-ui/icons/Search';
+import fire from '../../Fire'
 
 function Home() {
+    // handling add friends
+    const [open, setOpen] = useState(false)
+    const openAddFriendsInput = () => {
+        setOpen(true);  // opens add frineds dialog
+    }
+    const closeAddFriendsInput = () => {
+        setOpen(false);  // opens add frineds dialog
+        setNewFriendEmail('');
+        friendResult.splice(0, friendResult.length);
+        setHasFriendResult(false);
+    }
+    const [newFriendEmail, setNewFriendEmail] = useState('')
+    const [friendResult] = useState([])
+    const [hasFriendResult, setHasFriendResult] = useState(false)
+    const searchFriend = async () => {
+        const snapshot = await fire
+                                .firestore()
+                                .collection('users')
+                                .where('email', '==', newFriendEmail)
+                                .get();
+        setNewFriendEmail('');
+        if (snapshot.empty){
+            console.log('No Match');
+        } else {
+            snapshot.forEach(doc => {
+                friendResult.push(doc.data());
+                console.log(doc.data());
+            });
+            setHasFriendResult(true);
+        }
+    }
+
+    // dummy contacts
     const contacts = [
         {
             uid: "nsakjna92nwe73bwnbd73",
@@ -23,13 +64,76 @@ function Home() {
     ]
     return (
         <div className="home">
-            <div className="home_breadcrumbs">
-                <h2>Home.</h2>
-            </div>
+            <Breadcrumb address="Home."/>
             <div className="home_content">
                 <div className="home_header">
                     <p>Start Chatting!</p>
-                    <PersonAddIcon style={{fontSize: 27, color: grey[50]}}/>
+                    <label className="addfriendslabel" onClick={openAddFriendsInput}>
+                        <PersonAddIcon style={{fontSize: 27, color: grey[50]}}/>
+                    </label>
+                    <Dialog 
+                        open={open} 
+                        onClose={closeAddFriendsInput} 
+                        aria-labelledby="form-dialog-title"
+                        PaperProps={{
+                            style: {
+                                backgroundColor: "#23272A",
+                                boxShadow: "none"
+                            },
+                        }}
+                    >
+                        <DialogTitle id="form-dialog-title">
+                            <p className="dialogtitle1">
+                                Add New Friends
+                            </p>
+                        </DialogTitle>
+                        <DialogContent>
+                            <div className="addfriendscontent">
+                                <div className="addfriendscontentinput">
+                                    <input
+                                        className="addfriendsdialoginput"
+                                        type="email"
+                                        value={newFriendEmail}
+                                        placeholder="Type Friend's Email.."
+                                        onChange={(e)=>setNewFriendEmail(e.target.value)}
+                                    />
+                                    &nbsp;&nbsp;&nbsp;
+                                    <label onClick={()=>{
+                                        searchFriend();
+                                    }}>
+                                        <SearchIcon style={{fontSize: 27, color: grey[50]}}/>
+                                    </label>
+                                </div>
+                                &nbsp;
+                                &nbsp;
+                                <div className="addfriendsresult">
+                                    {hasFriendResult && friendResult.map(user=>(
+                                        <Friend
+                                            key={user.uid}
+                                            displayName={user.displayName}
+                                            photoURL={user.photoURL}
+                                            email={user.email}
+                                            status={user.status}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={closeAddFriendsInput} color="primary">
+                            <p className="dialogtitle2">
+                                Cancel
+                            </p>
+                        </Button>
+                        <Button onClick={()=>{
+                            closeAddFriendsInput();
+                        }} color="primary">
+                            <p className="dialogtitle2">
+                                Done
+                            </p>
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
                 {contacts.map(contact=>(
                     <Friend

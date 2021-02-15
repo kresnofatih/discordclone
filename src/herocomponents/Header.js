@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import './Header.css'
-import discordwordmark from './DiscordWordmarkWhite.png'
+import discordlogo from './Discord-Logo-Color.png'
 import { ProfileContext, LogoutContext } from '../App'
 
 function Header() {
@@ -11,7 +11,7 @@ function Header() {
     return (
         <div className="header">
             <div className="headercontainer">
-                <img src={discordwordmark}/>
+                <img src={discordlogo}/>
                 <img src={profile.photoURL} onClick={logout}/>
             </div>
         </div>

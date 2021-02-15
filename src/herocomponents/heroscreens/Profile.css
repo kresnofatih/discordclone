@@ -17,6 +17,7 @@
     justify-content: flex-start;
 }
 .profile_breadcrumbs h2 {
+    text-align: center;
     margin: 0;
     padding: 10px 20px;
     font-family: 'Nunito Sans', sans-serif;
