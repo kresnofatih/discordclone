@@ -14,30 +14,28 @@ export const LogoutContext = React.createContext()
 function App() {
   // states
   const [user, setUser] = useState('') // google user auth data
-  const [profile, setProfile] = useState({}) // firestore user auth data
+  const [profile, setProfile] = useState({}) // firestore user auth data, temporary state
 
-  // function: if first time logged, create a user doc in firestore
-  const initializeUserDataInFireStore = async (user) => {
-    if(user.metadata.creationTime===user.metadata.lastSignInTime){
-      await fire
-        .firestore()
-        .collection('users')
-        .doc(user.uid)
-        .set({
-          uid: user.uid,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          email: user.email,
-          friends: [],
-          status: 'online',
-          chatrooms: []
-        })
-    }
+  // function: if first time logged, create a user doc in firestore and auto logout
+  const initializeUserDocToFirestore = async (user) => {
+    await fire
+      .firestore()
+      .collection('users')
+      .doc(user.uid)
+      .set({
+        uid: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        email: user.email,
+        friends: [],
+        status: 'online',
+        chatrooms: []
+      });
   }
   
   // function: update status to online/offline if not first time logged in
   const updateUserStatusInFirestore = async (user, authAction) => {
-    if(user.metadata.creationTime!==user.metadata.lastSignInTime && authAction==='login'){
+    if(authAction==='login'){
       await fire
         .firestore()
         .collection('users')
@@ -46,7 +44,7 @@ function App() {
           status: 'online'
         })
     }
-    else if(user.metadata.creationTime!==user.metadata.lastSignInTime && authAction==='logout'){
+    else if(authAction==='logout'){
       await fire
         .firestore()
         .collection('users')
@@ -64,11 +62,16 @@ function App() {
     fire
       .auth()
       .signInWithPopup(provider)
-      .then((result)=>{
+      .then(async(result)=>{
           const user = result.user;
-          // if first time logged, create a user doc in firestore
-          initializeUserDataInFireStore(user);
-          updateUserStatusInFirestore(user, 'login');
+          const userDoc = await fire.firestore().collection('users').doc(""+user.uid).get();
+          if(!userDoc.exists){
+            setProfile(user);   // sets profile context value
+            initializeUserDocToFirestore(user);
+            profileListener(user);
+          } else {
+            updateUserStatusInFirestore(user, 'login');
+          }
       })
       .catch((error)=>{
           console.log(error);
@@ -90,21 +93,24 @@ function App() {
   }
 
   // profileSetter
-  const profileListener = (user) => {
-    fire
-      .firestore()
-      .collection('users')
-      .doc(user.uid)
-      .onSnapshot(docSnapshot=>{
-        setProfile(docSnapshot.data());
-      });
+  const profileListener = async (user) => {
+    const userDoc = await fire.firestore().collection('users').doc(""+user.uid).get(); 
+    if(userDoc.exists){ // only start listening if document exists
+      fire
+        .firestore()
+        .collection('users')
+        .doc(user.uid)
+        .onSnapshot(docSnapshot=>{
+          setProfile(docSnapshot.data());
+        });
+    }
   }
 
   // logout
   const logout = () => {
-    updateUserStatusInFirestore(user, 'logout').then(()=>{
+    updateUserStatusInFirestore(user, 'logout').then(()=>{ // set status to offline before logging out
       fire.auth().signOut();
-    })
+    });
   };
 
   // functions being run on refresh

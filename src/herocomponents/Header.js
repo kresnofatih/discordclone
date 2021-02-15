@@ -4,8 +4,10 @@ import discordwordmark from './DiscordWordmarkWhite.png'
 import { ProfileContext, LogoutContext } from '../App'
 
 function Header() {
-    const profile = useContext(ProfileContext)
-    const logout = useContext(LogoutContext)
+    const profile = useContext(ProfileContext);
+    const logout = useContext(LogoutContext);
+
+    
     return (
         <div className="header">
             <div className="headercontainer">
