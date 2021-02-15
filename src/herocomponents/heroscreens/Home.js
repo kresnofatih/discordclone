@@ -110,10 +110,12 @@ function Home() {
                                     {hasFriendResult && friendResult.map(user=>(
                                         <Friend
                                             key={user.uid}
+                                            uid={user.uid}
                                             displayName={user.displayName}
                                             photoURL={user.photoURL}
                                             email={user.email}
                                             status={user.status}
+                                            addToGroupEnabled={false}
                                         />
                                     ))}
                                 </div>
@@ -137,10 +139,13 @@ function Home() {
                 </div>
                 {contacts.map(contact=>(
                     <Friend
+                        key={contact.uid}
+                        uid={contact.uid}
                         displayName={contact.displayName}
                         photoURL={contact.photoURL}
                         email={contact.email}
                         status={contact.status}
+                        addToGroupEnabled={false}
                     />
                 ))}
             </div>

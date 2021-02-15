@@ -113,6 +113,15 @@ function App() {
     });
   };
 
+  // // spotfriend function: to identify if a user is a friend/nonfriend
+  // const spotFriend = (uid) => {
+  //   if(profile.friends.includes(uid)){
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
   // functions being run on refresh
   useEffect(()=>{
     authListener();
@@ -121,11 +130,11 @@ function App() {
   return (
     <div className="App">
       {user!=='' ? (
-        <ProfileContext.Provider value={profile}>
-          <LogoutContext.Provider value={logout}>
-            <Hero/>
-          </LogoutContext.Provider>
-        </ProfileContext.Provider>
+          <ProfileContext.Provider value={profile}>
+            <LogoutContext.Provider value={logout}>
+              <Hero/>
+            </LogoutContext.Provider>
+          </ProfileContext.Provider>
       ) : (        
         <Entry login={login}/>
       )}

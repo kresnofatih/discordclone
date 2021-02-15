@@ -72,6 +72,9 @@
 .addfriendslabel:hover {
     cursor: pointer;
 }
+.addfriendscontentinput label:hover {
+    cursor: pointer;
+}
 .addfriendscontentinput {
     display: flex;
     flex-direction: row;
@@ -79,6 +82,7 @@
     align-items: center;
 }
 .addfriendscontent {
+    width: 450px;
     display: flex;
     flex-direction: column;
 }
