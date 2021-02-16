@@ -24,6 +24,23 @@ function Friend({uid, addToGroupEnabled}) {
         friendData.photoURL = doc.data().photoURL;
         friendData.email = doc.data().email;
         friendData.status = doc.data().status;
+
+        // friend requests
+        if(doc.data().friendRequests===undefined){
+            friendData.friendRequests = []; 
+            // initializes friendRequest array, incase pushed later
+        } else {
+            friendData.friendRequests = doc.data().friendRequests; 
+            // if friendRequests has existed
+        }
+        // pending friend requests
+        if(doc.data().pendingFriendRequests===undefined){
+            friendData.pendingFriendRequests = []; 
+            // initializes pendingfriendRequest array, incase pushed later
+        } else {
+            friendData.pendingFriendRequests = doc.data().pendingFriendRequests; 
+            // if pendingfriendRequests has existed
+        }
         setHasFriendData(true);
     }
 
@@ -44,15 +61,26 @@ function Friend({uid, addToGroupEnabled}) {
         }
     };
 
-    // to add friend if not friend before
-    const addUserAsFriend = async () => {
-        profile.friends.push(uid);
+    // to send request if nonfriend
+    const sendFriendRequest = async () => {
+        if(profile.pendingFriendRequests===undefined){
+            profile.pendingFriendRequests = [];
+        }
+        profile.pendingFriendRequests.push(uid);
         await fire
                 .firestore()
                 .collection('users')
                 .doc(""+profile.uid)
                 .update({
-                    friends: profile.friends
+                    pendingFriendRequests: profile.pendingFriendRequests
+                });
+        friendData.friendRequests.push(profile.uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+uid)
+                .update({
+                    friendRequests: friendData.friendRequests
                 });
     }
 
@@ -89,7 +117,7 @@ function Friend({uid, addToGroupEnabled}) {
             {friendMode==='nonfriend' &&
                 <div className="friend_buttons">
                     {/* add friend */}
-                    <label onClick={addUserAsFriend}>
+                    <label onClick={sendFriendRequest}>
                         <PersonAddIcon style={{fontSize: 25, color: grey[50]}}/>
                     </label>
                 </div>
