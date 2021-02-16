@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import './Home.css'
 import Friend from '../Friend'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -11,6 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SearchIcon from '@material-ui/icons/Search';
 import fire from '../../Fire'
+import {ProfileContext} from '../../App'
 
 function Home() {
     // handling add friends
@@ -47,6 +48,25 @@ function Home() {
     }
 
     // dummy contacts
+    const profile = useContext(ProfileContext)
+    const [friendsList] = useState([])
+    const [hasFriendsList, setHasFriendsList] = useState(false)
+    const getFriendsList = () => {
+        try {
+            if(profile.friends===undefined){
+                throw "error: cannot find profile.friends";
+            } else {
+                profile.friends.map(uid=>{
+                    friendsList.push(uid);
+                    console.log(uid);
+                });
+                setHasFriendsList(true);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     const contacts = [
         {
             uid: "nsakjna92nwe73bwnbd73",
@@ -63,6 +83,12 @@ function Home() {
             email: "zakirahman@google.com"
         }
     ]
+
+    // functions being run on refresh
+    useEffect(()=>{
+        getFriendsList();
+    }, [profile])
+
     return (
         <div className="home">
             <Breadcrumb address="Home."/>
@@ -112,10 +138,6 @@ function Home() {
                                         <Friend
                                             key={user.uid}
                                             uid={user.uid}
-                                            displayName={user.displayName}
-                                            photoURL={user.photoURL}
-                                            email={user.email}
-                                            status={user.status}
                                             addToGroupEnabled={false}
                                         />
                                     ))}
@@ -138,14 +160,10 @@ function Home() {
                         </DialogActions>
                     </Dialog>
                 </div>
-                {contacts.map(contact=>(
+                {hasFriendsList && friendsList.map(uid=>(
                     <Friend
-                        key={contact.uid}
-                        uid={contact.uid}
-                        displayName={contact.displayName}
-                        photoURL={contact.photoURL}
-                        email={contact.email}
-                        status={contact.status}
+                        key={uid}
+                        uid={uid}
                         addToGroupEnabled={false}
                     />
                 ))}

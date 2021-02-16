@@ -9,7 +9,24 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {ProfileContext} from '../App'
 import fire from '../Fire'
 
-function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) {
+function Friend({uid, addToGroupEnabled}) {
+    // get friend data from uid
+    const [friendData] = useState({})
+    const [hasFriendData, setHasFriendData] = useState(false);
+    const getFriendData = async () => {
+        setHasFriendData(false);
+        const doc = await fire
+                            .firestore()
+                            .collection('users')
+                            .doc(uid)
+                            .get();
+        friendData.displayName = doc.data().displayName;
+        friendData.photoURL = doc.data().photoURL;
+        friendData.email = doc.data().email;
+        friendData.status = doc.data().status;
+        setHasFriendData(true);
+    }
+
     // to determine scopes: addfrien&d/chatfriend&/addtogroup
     const profile = useContext(ProfileContext)
     const [friendMode, setFriendMode] = useState('nonfriend')
@@ -26,6 +43,7 @@ function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) 
             console.log(err);
         }
     };
+
     // to add friend if not friend before
     const addUserAsFriend = async () => {
         profile.friends.push(uid);
@@ -37,22 +55,27 @@ function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) 
                     friends: profile.friends
                 });
     }
+
+    // functions being run on refresh
     useEffect(()=>{
+        getFriendData();
         getFriendMode();
     }, [profile])
     return (
         <div className="friend">
-            <div className="friend_profile">
-                <img src={photoURL}/>
-                <div className="friend_profiledata">
-                    <p className="friend_displayname">{displayName}</p>
-                    <p className="friend_email">{email}</p>
+            {hasFriendData &&
+                <div className="friend_profile">
+                    <img src={friendData.photoURL}/>
+                    <div className="friend_profiledata">
+                        <p className="friend_displayname">{friendData.displayName}</p>
+                        <p className="friend_email">{friendData.email}</p>
+                    </div>
                 </div>
-            </div>
+            }
             {friendMode==='friend' &&
                 <div className="friend_buttons">
                     {/* on/offsign */}
-                    {status==='online' ? (
+                    {hasFriendData && friendData.status==='online' ? (
                         <WbSunnyIcon style={{color: grey[50]}}/>
                     ):(
                         <NightsStayIcon style={{color: grey[50]}}/>
