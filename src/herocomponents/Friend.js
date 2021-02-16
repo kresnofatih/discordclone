@@ -27,8 +27,15 @@ function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) 
         }
     };
     // to add friend if not friend before
-    const addUserAsFriend = () => {
-        console.log(profile.friends);
+    const addUserAsFriend = async () => {
+        profile.friends.push(uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+profile.uid)
+                .update({
+                    friends: profile.friends
+                });
     }
     useEffect(()=>{
         getFriendMode();
