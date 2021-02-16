@@ -3,11 +3,14 @@ import './Friend.css'
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
-import { grey } from '@material-ui/core/colors'
+import { grey, lightGreen, red } from '@material-ui/core/colors'
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {ProfileContext} from '../App'
 import fire from '../Fire'
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import DoneIcon from '@material-ui/icons/Done';
+import ClearIcon from '@material-ui/icons/Clear';
 
 function Friend({uid, addToGroupEnabled}) {
     // get friend data from uid
@@ -24,6 +27,7 @@ function Friend({uid, addToGroupEnabled}) {
         friendData.photoURL = doc.data().photoURL;
         friendData.email = doc.data().email;
         friendData.status = doc.data().status;
+        friendData.friends = doc.data().friends;
 
         // friend requests
         if(doc.data().friendRequests===undefined){
@@ -44,7 +48,7 @@ function Friend({uid, addToGroupEnabled}) {
         setHasFriendData(true);
     }
 
-    // to determine scopes: addfrien&d/chatfriend&/addtogroup
+    // to determine mode: nonfriend/pending/requested/friend
     const profile = useContext(ProfileContext)
     const [friendMode, setFriendMode] = useState('nonfriend')
     const getFriendMode = () => {
@@ -54,7 +58,32 @@ function Friend({uid, addToGroupEnabled}) {
             } else {
                 if(profile.friends.includes(uid)){
                     setFriendMode('friend');
+                } else if(profile.pendingFriendRequests.includes(uid)){
+                    setFriendMode('pending');
+                } else if(profile.friendRequests.includes(uid)){
+                    setFriendMode('requested');
                 }
+                if(addToGroupEnabled){
+                    setFriendMode('addToGroup');
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    // initialize friendRequest & pendingFriendRequest
+    const initializeFriendRequestContext = () => {
+        try {
+            if(profile.friends===undefined){
+                throw "error: cannot find profile.friends";
+            } else {
+                if(profile.friendRequests===undefined){
+                    profile.friendRequests=[];
+                };
+                if(profile.pendingFriendRequests===undefined){
+                    profile.pendingFriendRequests=[];
+                };
             }
         } catch (err) {
             console.log(err);
@@ -63,9 +92,6 @@ function Friend({uid, addToGroupEnabled}) {
 
     // to send request if nonfriend
     const sendFriendRequest = async () => {
-        if(profile.pendingFriendRequests===undefined){
-            profile.pendingFriendRequests = [];
-        }
         profile.pendingFriendRequests.push(uid);
         await fire
                 .firestore()
@@ -84,9 +110,47 @@ function Friend({uid, addToGroupEnabled}) {
                 });
     }
 
+    // to accept friend request
+    const acceptFriendRequest = async () => {
+        profile.friends.push(uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+profile.uid)
+                .update({
+                    friends: profile.friends
+                });
+        friendData.friends.push(profile.uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+uid)
+                .update({
+                    friends: friendData.friends
+                });
+        const cleansedFriendRequests = profile.friendRequests.filter(id=>id!==friendData.uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+profile.uid)
+                .update({
+                    friendRequests: cleansedFriendRequests
+                });
+        const cleansedPendingFriendRequests = friendData.pendingFriendRequests.filter(id=>id!==profile.uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+uid)
+                .update({
+                    pendingFriendRequests: cleansedPendingFriendRequests
+                });
+
+    }
+
     // functions being run on refresh
     useEffect(()=>{
         getFriendData();
+        initializeFriendRequestContext();
         getFriendMode();
     }, [profile])
     return (
@@ -104,9 +168,13 @@ function Friend({uid, addToGroupEnabled}) {
                 <div className="friend_buttons">
                     {/* on/offsign */}
                     {hasFriendData && friendData.status==='online' ? (
-                        <WbSunnyIcon style={{color: grey[50]}}/>
+                        <label>
+                            <WbSunnyIcon style={{color: grey[50]}}/>
+                        </label>
                     ):(
-                        <NightsStayIcon style={{color: grey[50]}}/>
+                        <label>
+                            <NightsStayIcon style={{color: grey[50]}}/>
+                        </label>
                     )}
                     &nbsp;&nbsp;
 
@@ -122,10 +190,34 @@ function Friend({uid, addToGroupEnabled}) {
                     </label>
                 </div>
             }
-            {addToGroupEnabled &&
+            {friendMode==='pending' &&
+                <div className="friend_buttons">
+                    {/* wait for reply */}
+                    <label>
+                        <AccessTimeIcon style={{fontSize: 25, color: grey[50]}}/>
+                    </label>
+                </div>
+            }
+            {friendMode==='requested' &&
+                <div className="friend_buttons">
+                    {/* accept */}
+                    <label onClick={acceptFriendRequest}>
+                        <DoneIcon style={{fontSize: 25, color: lightGreen[400]}}/>
+                    </label>
+                    &nbsp;
+                    &nbsp;
+                    {/* decline */}
+                    <label>
+                        <ClearIcon style={{fontSize: 25, color: red[400]}}/>
+                    </label>
+                </div>
+            }
+            {friendMode==='addToGroup' &&
                 <div className="friend_buttons">
                     {/* add to group action */}
-                    <GroupAddIcon style={{fontSize: 27, color: grey[50]}}/>
+                    <label>
+                        <GroupAddIcon style={{fontSize: 27, color: grey[50]}}/>
+                    </label>
                 </div>
             }
         </div>

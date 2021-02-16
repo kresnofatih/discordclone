@@ -56,9 +56,10 @@ function Home() {
             if(profile.friends===undefined){
                 throw "error: cannot find profile.friends";
             } else {
+                setHasFriendsList(false);
+                friendsList.splice(0, friendsList.length);
                 profile.friends.map(uid=>{
                     friendsList.push(uid);
-                    console.log(uid);
                 });
                 setHasFriendsList(true);
             }
@@ -67,27 +68,10 @@ function Home() {
         }
     }
 
-    const contacts = [
-        {
-            uid: "nsakjna92nwe73bwnbd73",
-            status: "online",
-            displayName: "IrhamIsa",
-            photoURL: "https://i.pinimg.com/originals/99/c5/be/99c5be5f7e9e863f2d93ad64f431ca93.jpg",
-            email: "irhamisa@google.com"
-        },
-        {
-            uid: "danjus9akjnaals6al77",
-            status: "offline",
-            displayName: "ZakiRahman",
-            photoURL: "https://pbs.twimg.com/profile_images/1131624264405327873/1YpVVtxD_400x400.jpg",
-            email: "zakirahman@google.com"
-        }
-    ]
-
     // functions being run on refresh
     useEffect(()=>{
         getFriendsList();
-    }, [profile])
+    }, [profile.friends])
 
     return (
         <div className="home">

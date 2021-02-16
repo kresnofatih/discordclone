@@ -54,3 +54,6 @@
     flex-direction: row;
     align-items: center;
 }
+.friend_buttons label:hover {
+    cursor: pointer;
+}
