@@ -128,7 +128,7 @@ function Friend({uid, addToGroupEnabled}) {
                 .update({
                     friends: friendData.friends
                 });
-        const cleansedFriendRequests = profile.friendRequests.filter(id=>id!==friendData.uid);
+        const cleansedFriendRequests = profile.friendRequests.filter(id=>id!==uid);
         await fire
                 .firestore()
                 .collection('users')
@@ -144,7 +144,28 @@ function Friend({uid, addToGroupEnabled}) {
                 .update({
                     pendingFriendRequests: cleansedPendingFriendRequests
                 });
-
+                
+            }
+            
+    // decline friend request
+    const declineFriendRequest = async () => {
+        const cleansedFriendRequests = profile.friendRequests.filter(id=>id!==uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+profile.uid)
+                .update({
+                    friendRequests: cleansedFriendRequests
+                });
+        const cleansedPendingFriendRequests = friendData.pendingFriendRequests.filter(id=>id!==profile.uid);
+        await fire
+                .firestore()
+                .collection('users')
+                .doc(""+uid)
+                .update({
+                    pendingFriendRequests: cleansedPendingFriendRequests
+                });
+        setFriendMode('nonfriend');
     }
 
     // functions being run on refresh
@@ -207,7 +228,7 @@ function Friend({uid, addToGroupEnabled}) {
                     &nbsp;
                     &nbsp;
                     {/* decline */}
-                    <label>
+                    <label onClick={declineFriendRequest}>
                         <ClearIcon style={{fontSize: 25, color: red[400]}}/>
                     </label>
                 </div>
