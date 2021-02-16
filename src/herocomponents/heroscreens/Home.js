@@ -28,6 +28,8 @@ function Home() {
     const [friendResult] = useState([])
     const [hasFriendResult, setHasFriendResult] = useState(false)
     const searchFriend = async () => {
+        friendResult.splice(0, friendResult.length); // clears the friendresult array
+        setHasFriendResult(false);  // clears the friendresult display
         const snapshot = await fire
                                 .firestore()
                                 .collection('users')

@@ -7,6 +7,7 @@ import { grey } from '@material-ui/core/colors'
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {ProfileContext} from '../App'
+import fire from '../Fire'
 
 function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) {
     // to determine scopes: addfrien&d/chatfriend&/addtogroup
@@ -25,6 +26,10 @@ function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) 
             console.log(err);
         }
     };
+    // to add friend if not friend before
+    const addUserAsFriend = () => {
+        console.log(profile.friends);
+    }
     useEffect(()=>{
         getFriendMode();
     }, [profile])
@@ -49,6 +54,14 @@ function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) 
 
                     {/* chat the friend */}
                     <ChatBubbleIcon style={{fontSize: 25, color: grey[50]}}/>
+                </div>
+            }
+            {friendMode==='nonfriend' &&
+                <div className="friend_buttons">
+                    {/* add friend */}
+                    <label onClick={addUserAsFriend}>
+                        <PersonAddIcon style={{fontSize: 25, color: grey[50]}}/>
+                    </label>
                 </div>
             }
             {addToGroupEnabled &&
