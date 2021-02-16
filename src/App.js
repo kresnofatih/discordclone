@@ -113,15 +113,6 @@ function App() {
     });
   };
 
-  // // spotfriend function: to identify if a user is a friend/nonfriend
-  // const spotFriend = (uid) => {
-  //   if(profile.friends.includes(uid)){
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   // functions being run on refresh
   useEffect(()=>{
     authListener();

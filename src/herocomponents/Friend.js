@@ -11,29 +11,33 @@ import {ProfileContext} from '../App'
 function Friend({uid, displayName, photoURL, email, status, addToGroupEnabled}) {
     // to determine scopes: addfrien&d/chatfriend&/addtogroup
     const profile = useContext(ProfileContext)
-    const [sample, setSample] = useState('nope')
-    useEffect(()=>{
+    const [friendMode, setFriendMode] = useState('nonfriend')
+    const getFriendMode = () => {
         try {
             if(profile.friends===undefined){
-                throw "error";
+                throw "error: cannot find profile.friends";
             } else {
-                console.log(profile.friends[0]);
-                setSample(profile.friends[0]);
+                if(profile.friends.includes(uid)){
+                    setFriendMode('friend');
+                }
             }
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
+    };
+    useEffect(()=>{
+        getFriendMode();
     }, [profile])
     return (
         <div className="friend">
             <div className="friend_profile">
                 <img src={photoURL}/>
                 <div className="friend_profiledata">
-                    <p className="friend_displayname">{sample}&nbsp;{displayName}</p>
+                    <p className="friend_displayname">{displayName}</p>
                     <p className="friend_email">{email}</p>
                 </div>
             </div>
-            {true &&
+            {friendMode==='friend' &&
                 <div className="friend_buttons">
                     {/* on/offsign */}
                     {status==='online' ? (

@@ -35,11 +35,10 @@ function Home() {
                                 .get();
         setNewFriendEmail('');
         if (snapshot.empty){
-            console.log('No Match');
+            console.log('Friend-Search-by-Email: no users found with that email');
         } else {
             snapshot.forEach(doc => {
                 friendResult.push(doc.data());
-                console.log(doc.data());
             });
             setHasFriendResult(true);
         }
