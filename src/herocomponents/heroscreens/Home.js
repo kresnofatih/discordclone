@@ -151,6 +151,9 @@ function Home() {
                         addToGroupEnabled={false}
                     />
                 ))}
+                {!hasFriendsList &&
+                    <p className="nofriendsmsg">You have no chat friends yet. Find friends now!</p>
+                }
             </div>
         </div>
     )
