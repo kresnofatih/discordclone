@@ -1,0 +1,66 @@
+.chatroom {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: #2C2F33; */
+    /* background-color: red; */
+    background-image: url('../../pexels-steve-johnson-1416367.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.chatroom_content {
+    margin: 0;
+    padding: 20px 40px;
+    width: 1000px;
+    min-height: calc(100vh - 137px);
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    /* background-color:palevioletred; */
+    background-color:#2C2F33;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+.chatroom_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.chatroom_footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    background-color:#2C2F33;
+    /* background-color: #293846; */
+}
+.chatroom_headersides {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.chatroom_name {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+}
+.chatroom_chatlog {
+    padding-left: 20px;
+    padding-right: 20px;
+    max-height: 700px;
+    overflow-y: auto;
+    /* background-color: #25282c; */
+    background-color:#2C2F33;
+}

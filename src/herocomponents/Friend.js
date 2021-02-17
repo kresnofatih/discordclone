@@ -30,6 +30,7 @@ function Friend({uid, addToGroupEnabled}) {
         friendData.email = doc.data().email;
         friendData.status = doc.data().status;
         friendData.friends = doc.data().friends;
+        friendData.chatrooms = doc.data().chatrooms;
 
         // friend requests
         if(doc.data().friendRequests===undefined){
@@ -190,6 +191,54 @@ function Friend({uid, addToGroupEnabled}) {
                 });
     }
 
+    // start private chatting
+    const createPrivateChatroom = async () => {
+        const privateChatroomId = profile.uid+'vs'+uid;
+        const privateChatroomIdPeer = uid+'vs'+profile.uid;
+        const privateChatroom = await fire
+                                        .firestore()
+                                        .collection('chatrooms')
+                                        .doc(privateChatroomId)
+                                        .get();
+        const privateChatroomPeer = await fire
+                                        .firestore()
+                                        .collection('chatrooms')
+                                        .doc(privateChatroomIdPeer)
+                                        .get();
+        if(!privateChatroom.exists && !privateChatroomPeer.exists){
+            await fire
+                    .firestore()
+                    .collection('chatrooms')
+                    .doc(privateChatroomId)
+                    .set({
+                        chatroomId: privateChatroomId,
+                        chatroomType: 'private',
+                        chatroomMembers: [
+                            profile.uid,
+                            uid
+                        ],
+                        chatroomName: privateChatroomId
+                    }).then(async()=>{
+                        profile.chatrooms.push(privateChatroomId);
+                        await fire
+                                .firestore()
+                                .collection('users')
+                                .doc(profile.uid)
+                                .update({
+                                    chatrooms: profile.chatrooms
+                                });
+                        friendData.chatrooms.push(privateChatroomId);
+                        await fire
+                                .firestore()
+                                .collection('users')
+                                .doc(profile.uid)
+                                .update({
+                                    chatrooms: friendData.chatrooms
+                                });
+                    });
+        }
+    }
+
     // functions being run on refresh
     useEffect(()=>{
         getFriendData();
@@ -222,7 +271,9 @@ function Friend({uid, addToGroupEnabled}) {
                     &nbsp;&nbsp;
 
                     {/* chat the friend */}
-                    <label>
+                    <label onClick={()=>{
+                        createPrivateChatroom();
+                    }}>
                         <ChatBubbleIcon style={{fontSize: 25, color: grey[50]}}/>
                     </label>
                     {/* &nbsp;&nbsp;

@@ -169,11 +169,6 @@ function Home() {
                             </div>
                         </DialogContent>
                         <DialogActions>
-                        <Button onClick={closeAddFriendsInput} color="primary">
-                            <p className="dialogtitle2">
-                                Cancel
-                            </p>
-                        </Button>
                         <Button onClick={()=>{
                             closeAddFriendsInput();
                         }} color="primary">
