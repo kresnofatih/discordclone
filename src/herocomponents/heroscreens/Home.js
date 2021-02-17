@@ -61,7 +61,9 @@ function Home() {
                 profile.friends.map(uid=>{
                     friendsList.push(uid);
                 });
-                setHasFriendsList(true);
+                if(profile.friends.length!==0){
+                    setHasFriendsList(true);
+                };
             }
         } catch (err) {
             console.log(err);
@@ -71,7 +73,7 @@ function Home() {
     // functions being run on refresh
     useEffect(()=>{
         getFriendsList();
-    }, [profile.friends])
+    }, [profile])
 
     return (
         <div className="home">
