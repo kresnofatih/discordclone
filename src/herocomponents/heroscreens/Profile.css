@@ -7,34 +7,24 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
-    background-color: #2C2F33;
-}
-.profile_breadcrumbs {
-    margin: 0;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-.profile_breadcrumbs h2 {
-    text-align: center;
-    margin: 0;
-    padding: 10px 20px;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 20px;
-    color: #7289DA;
-    background-color: #23272A;
+    /* background-color: #2C2F33; */
+    background-image: url('../../pexels-steve-johnson-1416367.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 .profile_content {
+    min-height: calc(100vh - 157px);
     margin: 0;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     padding: 30px;
     width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color:#23272A;
-    border-radius: 5px;
+    /* background-color:#23272A; */
+    background-color:#2C2F33;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 .profile_content img {
     margin: 0;
@@ -53,6 +43,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background-color:#2C2F33;
 }
 .profile_content_item label:hover {
     cursor: pointer;
@@ -61,7 +52,7 @@
 .profile_content_field {
     display: flex;
     flex-direction: column;
-    background-color:#23272A;
+    /* background-color:#23272A; */
 }
 .profile_content_placeholder {
     margin: 0;

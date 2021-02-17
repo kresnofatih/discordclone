@@ -12,6 +12,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 import CancelIcon from '@material-ui/icons/Cancel';
+import firebase from 'firebase'
 
 function Friend({uid, addToGroupEnabled}) {
     // get friend data from uid
@@ -171,21 +172,21 @@ function Friend({uid, addToGroupEnabled}) {
 
     // delete friend
     const deleteFriend = async () => {
-        const cleansedFriends = profile.friends.filter(id=>id!==uid);
+        // const cleansedFriends = profile.friends.filter(id=>id!==uid);
         await fire
                 .firestore()
                 .collection('users')
                 .doc(""+profile.uid)
                 .update({
-                    friends: cleansedFriends
+                    friends: firebase.firestore.FieldValue.arrayRemove(uid)
                 });
-        const cleansedFriendsPeer = friendData.friends.filter(id=>id!==profile.uid);
+        // const cleansedFriendsPeer = friendData.friends.filter(id=>id!==profile.uid);
         await fire
                 .firestore()
                 .collection('users')
                 .doc(""+uid)
                 .update({
-                    friends: cleansedFriendsPeer
+                    friends: firebase.firestore.FieldValue.arrayRemove(profile.uid)
                 });
     }
 
@@ -224,10 +225,10 @@ function Friend({uid, addToGroupEnabled}) {
                     <label>
                         <ChatBubbleIcon style={{fontSize: 25, color: grey[50]}}/>
                     </label>
-                    &nbsp;&nbsp;
+                    {/* &nbsp;&nbsp;
                     <label onClick={deleteFriend}>
                         <CancelIcon style={{fontSize: 25, color: grey[50]}}/>
-                    </label>
+                    </label> */}
                 </div>
             }
             {friendMode==='nonfriend' &&

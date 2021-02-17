@@ -8,8 +8,8 @@ function Hero() {
     return (
         <div className="hero">
             <Header/>
-            {/* <Profile/> */}
-            <Home/>
+            <Profile/>
+            {/* <Home/> */}
         </div>
     )
 }

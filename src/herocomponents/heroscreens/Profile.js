@@ -124,8 +124,10 @@ function Profile() {
                         </Button>
                         <Button onClick={()=>{
                             closeDisplayNameInput();
-                            storeNewDisplayNameToFirestore();
-                            setNewDisplayName('');
+                            if(newDisplayName.length>0){
+                                storeNewDisplayNameToFirestore();
+                                setNewDisplayName('');
+                            }
                         }} color="primary">
                             <p className="dialogtitle2">
                                 Save

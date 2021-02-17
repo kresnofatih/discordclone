@@ -7,11 +7,11 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
-    background-color: #2C2F33;
+    /* background-color: #2C2F33; */
     /* background-color: red; */
-    /* background-image: url('../../pexels-steve-johnson-1416367.jpg');
+    background-image: url('../../pexels-steve-johnson-1416367.jpg');
     background-size: 100%;
-    background-repeat: no-repeat; */
+    background-repeat: no-repeat;
 }
 .home_content {
     margin: 0;
@@ -27,8 +27,6 @@
     border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 .home_header {
-    position: relative;
-    top: 0;
     margin: 0;
     padding: 15px;
     display: flex;
@@ -79,6 +77,9 @@
 .addfriendslabel:hover {
     cursor: pointer;
 }
+.friendrequestslabel:hover {
+    cursor: pointer;
+}
 .addfriendscontentinput label:hover {
     cursor: pointer;
 }
@@ -93,6 +94,11 @@
     display: flex;
     flex-direction: column;
 }
+.friendrequestscontent {
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+}
 
 .nofriendsmsg {
     font-family: 'Nunito Sans', sans-serif;
@@ -100,6 +106,12 @@
     font-weight: 200;
     color: white;
     text-align: center;
+}
+
+.home_headerbtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 @media screen and (max-width: 1300px){

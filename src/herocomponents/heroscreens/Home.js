@@ -9,9 +9,11 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 import SearchIcon from '@material-ui/icons/Search';
 import fire from '../../Fire'
 import {ProfileContext} from '../../App'
+import Badge from '@material-ui/core/Badge';
 
 function Home() {
     // handling add friends
@@ -47,7 +49,7 @@ function Home() {
         }
     }
 
-    // dummy contacts
+    // get friends methods
     const profile = useContext(ProfileContext)
     const [friendsList] = useState([])
     const [hasFriendsList, setHasFriendsList] = useState(false)
@@ -58,7 +60,7 @@ function Home() {
             } else {
                 setHasFriendsList(false);
                 friendsList.splice(0, friendsList.length);
-                profile.friends.map(uid=>{
+                profile.friends.forEach(uid=>{
                     friendsList.push(uid);
                 });
                 if(profile.friends.length!==0){
@@ -68,6 +70,26 @@ function Home() {
         } catch (err) {
             console.log(err);
         }
+    }
+
+    // get friendrequests
+    const [viewFriendRequestsDialog, setViewFriendRequestsDialog] = useState(false)
+    const openFriendRequestsDialog = () => {
+        setViewFriendRequestsDialog(true);
+    }
+    const closeFriendRequestsDialog = () => {
+        setViewFriendRequestsDialog(false);
+    }
+    try {
+        if(profile.friends===undefined){
+            throw "error: cannot find profile.friends";
+        } else {
+            if(profile.friendRequests===undefined){
+                profile.friendRequests=[];
+            };
+        }
+    } catch (err) {
+        console.log(err);
     }
 
     // functions being run on refresh
@@ -81,9 +103,25 @@ function Home() {
             <div className="home_content">
                 <div className="home_header">
                     <p>Start Chatting!</p>
+                    <div className="home_headerbtn">
                     <label className="addfriendslabel" onClick={openAddFriendsInput}>
                         <PersonAddIcon style={{fontSize: 27, color: grey[50]}}/>
                     </label>
+                    &nbsp;
+                    &nbsp;
+                    {(profile.friendRequests!==undefined && profile.friendRequests.length===0) &&
+                        <label className="friendrequestslabel" onClick={openFriendRequestsDialog}>
+                            <PersonPinIcon style={{fontSize: 27, color: grey[50]}}/>
+                        </label>
+                    }
+                    {(profile.friendRequests!==undefined && profile.friendRequests.length!==0) &&
+                        <label className="friendrequestslabel" onClick={openFriendRequestsDialog}>
+                            <Badge badgeContent={profile.friendRequests.length} color="primary">
+                                <PersonPinIcon style={{fontSize: 27, color: grey[50]}}/>
+                            </Badge>
+                        </label>
+                    }
+                    </div>
                     <Dialog 
                         open={open} 
                         onClose={closeAddFriendsInput} 
@@ -138,6 +176,46 @@ function Home() {
                         </Button>
                         <Button onClick={()=>{
                             closeAddFriendsInput();
+                        }} color="primary">
+                            <p className="dialogtitle2">
+                                Done
+                            </p>
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+                    <Dialog 
+                        open={viewFriendRequestsDialog} 
+                        onClose={closeFriendRequestsDialog} 
+                        aria-labelledby="friendreq-dialog-title"
+                        PaperProps={{
+                            style: {
+                                backgroundColor: "#23272A",
+                                boxShadow: "none"
+                            },
+                        }}
+                    >
+                        <DialogTitle id="friendreq-dialog-title">
+                            <p className="dialogtitle1">
+                                Friend Requests
+                            </p>
+                        </DialogTitle>
+                        <DialogContent>
+                            <div className="friendrequestscontent">
+                                {profile.friendRequests!==undefined && profile.friendRequests.map(id=>(
+                                    <Friend
+                                        key={id}
+                                        uid={id}
+                                        addToGroupEnabled={false}
+                                    />
+                                ))}
+                                {(profile.friendRequests!==undefined && profile.friendRequests.length===0) &&
+                                    <p className="nofriendsmsg">You have no friend requests!</p>
+                                }
+                            </div>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={()=>{
+                            closeFriendRequestsDialog();
                         }} color="primary">
                             <p className="dialogtitle2">
                                 Done
