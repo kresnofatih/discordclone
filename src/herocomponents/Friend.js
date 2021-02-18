@@ -13,6 +13,8 @@ import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 import CancelIcon from '@material-ui/icons/Cancel';
 import firebase from 'firebase'
+import {NavigateChatroomContext, NavigateHeroContext} from '../Hero'
+
 
 function Friend({uid, addToGroupEnabled}) {
     // get friend data from uid
@@ -191,6 +193,10 @@ function Friend({uid, addToGroupEnabled}) {
                 });
     }
 
+    // navigate to other pages
+    const navigateToHeroScreen = useContext(NavigateHeroContext);
+    const navigateToChatroom = useContext(NavigateChatroomContext);
+
     // start private chatting
     const createPrivateChatroom = async () => {
         const privateChatroomId = profile.uid+'vs'+uid;
@@ -234,8 +240,18 @@ function Friend({uid, addToGroupEnabled}) {
                                 .doc(profile.uid)
                                 .update({
                                     chatrooms: friendData.chatrooms
+                                }).then(()=>{
+                                    navigateToChatroom(privateChatroomId);
+                                    navigateToHeroScreen('chatroom');
                                 });
                     });
+        } else if(privateChatroom.exists){
+            navigateToChatroom(privateChatroomId);
+            navigateToHeroScreen('chatroom');
+        } else if(privateChatroomPeer.exists){
+            navigateToChatroom(privateChatroomIdPeer);
+            navigateToHeroScreen('chatroom');
+
         }
     }
 

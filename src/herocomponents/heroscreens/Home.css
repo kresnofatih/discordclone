@@ -7,11 +7,11 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
-    /* background-color: #2C2F33; */
+    background-color: #2C2F33;
     /* background-color: red; */
-    background-image: url('../../pexels-steve-johnson-1416367.jpg');
+    /* background-image: url('../../pexels-steve-johnson-1416367.jpg');
     background-size: 100%;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
 }
 .home_content {
     margin: 0;

@@ -92,6 +92,8 @@ function Home() {
         console.log(err);
     }
 
+    
+
     // functions being run on refresh
     useEffect(()=>{
         getFriendsList();

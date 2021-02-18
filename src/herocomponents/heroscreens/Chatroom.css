@@ -5,11 +5,11 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
-    /* background-color: #2c2f33; */
+    background-color: #2c2f33;
     /* background-color: palevioletred; */
-    background-image: url('../../pexels-steve-johnson-1416367.jpg');
+    /* background-image: url('../../pexels-steve-johnson-1416367.jpg');
     background-size: 100%;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
 }
 .chatroom_content {
     margin: 0;
@@ -38,6 +38,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding-top: 20px;
     padding-left: 15px;
     padding-right: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
@@ -64,7 +65,7 @@
 .chatroom_chatlog {
     padding-left: 20px;
     padding-right: 20px;
-    max-height: 700px;
+    height: 700px;
     overflow-y: auto;
     /* background-color: #25282c; */
     background-color:#2C2F33;
@@ -84,6 +85,7 @@
     height: 200px;
     width: 200px;
     border-radius: 50ch;
+    margin-bottom: 20px;
 }
 .profile_content_field {
     margin-top: 20px;
@@ -91,6 +93,7 @@
     width: calc(100%-20px);
     display: flex;
     flex-direction: column;
+    align-items: center;
     /* width: 100%; */
     /* background-color:#23272A; */
 }
@@ -110,4 +113,16 @@
     font-size: 16px;
     font-weight: 200;
     color: rgb(170, 170, 170);
+}
+.chatbox {
+    width: 600px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    /* color: orange; */
+    color: #7289DA;
 }

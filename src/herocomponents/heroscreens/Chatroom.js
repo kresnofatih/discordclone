@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {ProfileContext} from '../../App'
+import {NavigateHeroContext} from '../../Hero'
 import Breadcrumb from '../Breadcrumb'
 import './Chatroom.css'
 import CodeIcon from '@material-ui/icons/Code';
@@ -13,9 +14,13 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Chatitem from '../Chatitem';
 import fire from '../../Fire'
 import Drawer from '@material-ui/core/Drawer';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import NightsStayIcon from '@material-ui/icons/NightsStay';
 
-function Chatroom() {
+function Chatroom({chatroomId}) {
+    // personal profile loader
     const profile = useContext(ProfileContext)
+
     // chatroom info loader
     const [chatroomInfo] = useState({})
     const [hasChatroomInfo, setHasChatroomInfo] = useState(false)
@@ -24,7 +29,7 @@ function Chatroom() {
         const chatroominfo = await fire
                                     .firestore()
                                     .collection('chatrooms')
-                                    .doc('uk4pOQjJW1VeB9NXjv9dbaQor242vsWRZbOW0Az5N1FY8ssHXJbRj1w4H2')
+                                    .doc(chatroomId)
                                     .get();
         if(chatroominfo.exists){
             chatroomInfo.chatroomId = chatroominfo.data().chatroomId;
@@ -59,6 +64,7 @@ function Chatroom() {
         friendData.photoURL = doc.data().photoURL;
         friendData.email = doc.data().email;
         friendData.status = doc.data().status;
+        friendData.uid = doc.data().uid;
         setHasFriendData(true);
     }
 
@@ -71,16 +77,54 @@ function Chatroom() {
         setViewProfileDrawer(false);
     }
 
+    // msg sender
+    const [chatMsg, setChatMsg] = useState('')
+    const sendChat = (e) => {
+        e.preventDefault();
+        // console.log(chatMsg);
+        setChatMsg('');
+        const d = new Date();
+        fire
+            .firestore()
+            .collection('chatrooms')
+            .doc(chatroomInfo.chatroomId)
+            .collection('chats')
+            .add({
+                uid: profile.uid,
+                msg: chatMsg,
+                timestamp: d.toUTCString(),
+                timestampSeconds: Date.now()
+            });
+    }
+    
+    // chatlog listener
+    const [chatLog, setChatLog] = useState([])
+    const chatLogListener = () => {
+        fire
+            .firestore()
+            .collection('chatrooms')
+            .doc(chatroomId)
+            .collection('chats')
+            .onSnapshot(snapshot=>(
+                setChatLog(snapshot.docs.map(doc=>doc.data()).sort((a,b)=>{
+                    return b.timestampSeconds-a.timestampSeconds
+                }))
+            ));
+    }
+
+    // navigate to other pages
+    const navigateToHeroScreen = useContext(NavigateHeroContext);
 
     // functions being run on refresh/change of parameters
     useEffect(()=>{
         getChatroomInfo();
+        chatLogListener();
     }, [profile])
     return (
         <div className="chatroom">
             <Breadcrumb address="Chatroom."/>
             <div className="chatroom_content">
-                {chatroomInfo.chatroomType==='private' &&
+                {hasChatroomInfo && chatroomInfo.chatroomType==='private' &&
                     <div className="chatroom_header">
                         {hasFriendData &&
                             <div className="chatroom_headersides">
@@ -107,6 +151,28 @@ function Chatroom() {
                                             <p className="profile_content_placeholder">DISPLAY NAME:</p>
                                             <p className="profile_content_fieldvalue">{friendData.displayName}</p>
                                         </div>
+                                        <div className="profile_content_field">
+                                            <p className="profile_content_placeholder">UID:</p>
+                                            <p className="profile_content_fieldvalue">{friendData.uid}</p>
+                                        </div>
+                                        <div className="profile_content_field">
+                                            <p className="profile_content_placeholder">EMAIL:</p>
+                                            <p className="profile_content_fieldvalue">{friendData.email}</p>
+                                        </div>
+                                        <div className="profile_content_field">
+                                            <p className="profile_content_placeholder">STATUS:</p>
+                                            &nbsp;
+                                            {friendData.status==='online' ? (
+                                                <label>
+                                                    <WbSunnyIcon style={{color: grey[50]}}/>
+                                                </label>
+                                            ):(
+                                                <label>
+                                                    <NightsStayIcon style={{color: grey[50]}}/>
+                                                </label>
+                                            )}
+                                            {/* <p className="profile_content_fieldvalue">{friendData.status}</p> */}
+                                        </div>
                                     </div>
                                 </Drawer>
                             </React.Fragment>
@@ -131,32 +197,39 @@ function Chatroom() {
                     </div>
                 }
                 <div className="chatroom_chatlog">
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
-                    <Chatitem/>
+                    {chatLog.map(chat=>(
+                        <Chatitem 
+                            uid={chat.uid}
+                            timestamp={chat.timestamp}
+                            msg={chat.msg}
+                        />
+                    ))}
                 </div>
                 <div className="chatroom_footer">
                     <div className="chatroom_headersides">
                         <AddCircleIcon style={{fontSize: 22, color: grey[50]}}/>
                         &nbsp;
                         &nbsp;
-                        <p className="chatroom_name">bacotan</p>
+                        <form action="" onSubmit={sendChat}>
+                            <input
+                                className="chatbox"
+                                onChange={e=>setChatMsg(e.target.value)} 
+                                value={chatMsg}
+                                placeholder="Chat Now!"
+                                type="text"
+                            />
+                        </form>
                     </div>
                     <div className="chatroom_headersides">
                         <GifIcon style={{fontSize: 40, color: grey[50]}}/>
                         &nbsp;
                         &nbsp;
                         &nbsp;
-                        <EmojiEmotionsIcon style={{fontSize: 22, color: grey[50]}}/>
+                        <label onClick={()=>{
+                            navigateToHeroScreen('home');
+                        }}>
+                            <EmojiEmotionsIcon style={{fontSize: 22, color: grey[50]}}/>
+                        </label>
                     </div>
                 </div>
             </div>
