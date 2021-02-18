@@ -1,0 +1,49 @@
+.chatitem {
+    margin: 0;
+    padding: 15px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.chatitem div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+.chatitem img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50ch;
+}
+
+.chatitem_displayname {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: orange;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.chatitem_timestamp {
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 200;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.chatitem_chatmsg {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    color: rgb(194, 194, 194);
+}
