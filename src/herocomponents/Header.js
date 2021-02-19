@@ -5,6 +5,11 @@ import { ProfileContext, LogoutContext } from '../App'
 import Drawer from '@material-ui/core/Drawer';
 import discordLogo from '../DiscordWhite.png'
 import {NavigateHeroContext} from '../Hero'
+import HomeIcon from '@material-ui/icons/Home';
+import ForumIcon from '@material-ui/icons/Forum';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import { grey, indigo } from '@material-ui/core/colors'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 function Header() {
     const profile = useContext(ProfileContext);
@@ -25,7 +30,7 @@ function Header() {
         <div className="header">
             <div className="headercontainer">
                 <React.Fragment key='left'>
-                    <label onClick={openNavigateDrawer}>
+                    <label className="navigatedrawerbtn" onClick={openNavigateDrawer}>
                         <img src={discordlogo}/>
                     </label>
                     <Drawer
@@ -35,31 +40,45 @@ function Header() {
                         BackdropProps={{style: {backgroundColor: 'transparent'}}}
                     >
                         <div className="navdrawerdiv">
+                            <div className="navdrawerlogo">
                             <img className="discordlogo" src={discordLogo}/>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
+                            </div>
                             <label className="navdrawermenubtn" onClick={()=>{
                                 navigateToHeroScreen('home');
                                 closeNavigateDrawer();
                             }}>
+                                <HomeIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
                                 Home.
+                                </p>
                             </label>
                             <label className="navdrawermenubtn" onClick={()=>{
                                 closeNavigateDrawer();
                             }}>
+                                <ForumIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
                                 Chatrooms.
+                                </p>
                             </label>
                             <label className="navdrawermenubtn" onClick={()=>{
                                 navigateToHeroScreen('profile');
                                 closeNavigateDrawer();
                             }}>
+                                <AccountBoxIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
                                 Profile.
+                                </p>
+                            </label>
+                            <label className="navdrawermenubtn" onClick={logout}>
+                                <ExitToAppIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
+                                Logout.
+                                </p>
                             </label>
                         </div>
                     </Drawer>
                 </React.Fragment>
-                <img src={profile.photoURL} onClick={logout}/>
+                <img src={profile.photoURL}/>
             </div>
         </div>
     )

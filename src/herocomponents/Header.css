@@ -30,7 +30,7 @@
 }
 .navdrawerdiv {
     height: 100%;
-    width: 400px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,20 +39,35 @@
     background-color: #2C2F33;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
+.navdrawerlogo {
+    padding-bottom: 15px;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
 .discordlogo {
+    margin-left: 20px;
     height: 50px;
 }
 .navdrawermenubtn {
-    width: 360px;
+    display: flex;
+    flex-direction: row;
+    width: 250px;
     margin: 0;
-    padding: 20px;
+    padding: 10px 25px;
     font-family: 'Nunito Sans', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: #7289DA;
-    text-align: center;
+    align-items: center;
+    /* text-align: left; */
+}
+.navdrawermenubtn p {
+    margin-left: 20px;
 }
 .navdrawermenubtn:hover {
     background-color: #363b42;
+    cursor: pointer;
+}
+.navigatedrawerbtn:hover {
     cursor: pointer;
 }

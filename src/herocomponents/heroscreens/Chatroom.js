@@ -225,9 +225,7 @@ function Chatroom({chatroomId}) {
                         &nbsp;
                         &nbsp;
                         &nbsp;
-                        <label onClick={()=>{
-                            navigateToHeroScreen('home');
-                        }}>
+                        <label>
                             <EmojiEmotionsIcon style={{fontSize: 22, color: grey[50]}}/>
                         </label>
                     </div>
