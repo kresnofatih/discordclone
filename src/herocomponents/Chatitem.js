@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import './Chatitem.css'
 import fire from '../Fire'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { grey } from '@material-ui/core/colors'
+
 
 function Chatitem({uid, timestamp, msg}) {
     const [userInfo, setUserInfo] = useState('')
@@ -27,16 +30,19 @@ function Chatitem({uid, timestamp, msg}) {
             {hasUserInfo &&
                 <img src={userInfo.photoURL}/>
             }
-            <div>
-                {hasUserInfo &&
+            {hasUserInfo &&
+                <div>
                     <p className="chatitem_displayname">{userInfo.displayName}
                         <p className="chatitem_timestamp">{timestamp}</p>
                     </p>
-                }
-                <p className="chatitem_chatmsg">
-                    {msg}
-                </p>
-            </div>
+                    <p className="chatitem_chatmsg">
+                        {msg}
+                    </p>
+                </div>
+            }
+            {!hasUserInfo &&
+                <CircularProgress style={{fontSize: 25, color: grey[50]}}/>
+            }
         </div>
     )
 }

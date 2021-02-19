@@ -14,6 +14,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import fire from '../../Fire'
 import {ProfileContext} from '../../App'
 import Badge from '@material-ui/core/Badge';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Home() {
     // handling add friends
@@ -229,6 +230,11 @@ function Home() {
                     />
                 ))}
                 {!hasFriendsList &&
+                    <div className="loading">
+                        <CircularProgress style={{fontSize: 25, color: grey[50]}}/>
+                    </div>
+                }
+                {profile.friends!==undefined && profile.friends.length===0 &&
                     <p className="nofriendsmsg">You have no chat friends yet. Find friends now!</p>
                 }
             </div>

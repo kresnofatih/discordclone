@@ -124,16 +124,15 @@ function Chatroom({chatroomId}) {
         <div className="chatroom">
             <Breadcrumb address="Chatroom."/>
             <div className="chatroom_content">
-                {hasChatroomInfo && chatroomInfo.chatroomType==='private' &&
+                {hasChatroomInfo && hasFriendData && chatroomInfo.chatroomType==='private' &&
                     <div className="chatroom_header">
-                        {hasFriendData &&
-                            <div className="chatroom_headersides">
-                                <CodeIcon style={{fontSize: 27, color: grey[50]}}/>
-                                &nbsp;
-                                &nbsp;
-                                <p className="chatroom_name">{friendData.displayName}</p>
-                            </div>
-                        }
+                        <div className="chatroom_headersides">
+                            <img className="chatroompic" src={friendData.photoURL}/>
+                            {/* <CodeIcon style={{fontSize: 27, color: grey[50]}}/> */}
+                            &nbsp;
+                            &nbsp;
+                            <p className="chatroom_name">{friendData.displayName}</p>
+                        </div>
                         <div className="chatroom_headersides">
                             <React.Fragment key='right'>
                                 <label onClick={openProfileDrawer}>
@@ -197,7 +196,7 @@ function Chatroom({chatroomId}) {
                     </div>
                 }
                 <div className="chatroom_chatlog">
-                    {chatLog.map(chat=>(
+                    {hasChatroomInfo && hasFriendData && chatLog.map(chat=>(
                         <Chatitem 
                             uid={chat.uid}
                             timestamp={chat.timestamp}
@@ -205,6 +204,7 @@ function Chatroom({chatroomId}) {
                         />
                     ))}
                 </div>
+                {hasChatroomInfo && hasFriendData && 
                 <div className="chatroom_footer">
                     <div className="chatroom_headersides">
                         <AddCircleIcon style={{fontSize: 22, color: grey[50]}}/>
@@ -232,6 +232,7 @@ function Chatroom({chatroomId}) {
                         </label>
                     </div>
                 </div>
+                }
             </div>
         </div>
     )

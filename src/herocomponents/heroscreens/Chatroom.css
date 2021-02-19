@@ -126,3 +126,8 @@
     /* color: orange; */
     color: #7289DA;
 }
+.chatroompic {
+    height: 25px;
+    width: 25px;
+    border-radius: 50ch;
+}
