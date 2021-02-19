@@ -75,7 +75,7 @@ function Profile() {
                     </label>
                 </div>
                 <div className="profile_content_item">
-                    <div className="profile_content_field">
+                    <div className="profile_content_fieldprofile">
                         <p className="profile_content_placeholder">UID:</p>
                         <p className="profile_content_fieldvalue">{profile.uid}</p>
                     </div>
@@ -84,7 +84,7 @@ function Profile() {
                     </label>
                 </div>
                 <div className="profile_content_item">
-                    <div className="profile_content_field">
+                    <div className="profile_content_fieldprofile">
                         <p className="profile_content_placeholder">DISPLAY NAME:</p>
                         <p className="profile_content_fieldvalue">{profile.displayName}</p>
                     </div>
@@ -137,7 +137,7 @@ function Profile() {
                     </Dialog>
                 </div>
                 <div className="profile_content_item">
-                    <div className="profile_content_field">
+                    <div className="profile_content_fieldprofile">
                         <p className="profile_content_placeholder">EMAIL:</p>
                         <p className="profile_content_fieldvalue">{profile.email}</p>
                     </div>

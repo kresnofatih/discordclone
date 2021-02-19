@@ -49,9 +49,10 @@
     cursor: pointer;
 }
 
-.profile_content_field {
+.profile_content_fieldprofile {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     /* background-color:#23272A; */
 }
 .profile_content_placeholder {

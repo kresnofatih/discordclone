@@ -210,7 +210,7 @@ function Chatroom({chatroomId}) {
                         <AddCircleIcon style={{fontSize: 22, color: grey[50]}}/>
                         &nbsp;
                         &nbsp;
-                        <form action="" onSubmit={sendChat}>
+                        <form className="chatform" action="" onSubmit={sendChat}>
                             <input
                                 className="chatbox"
                                 onChange={e=>setChatMsg(e.target.value)} 

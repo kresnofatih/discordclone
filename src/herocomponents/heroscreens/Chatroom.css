@@ -115,7 +115,9 @@
     color: rgb(170, 170, 170);
 }
 .chatbox {
-    width: 600px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 800px;
     background-color: transparent;
     border: none;
     outline: none;
@@ -125,6 +127,7 @@
     font-weight: 700;
     /* color: orange; */
     color: #7289DA;
+    border-bottom: 2px solid #7289DA;
 }
 .chatroompic {
     height: 25px;

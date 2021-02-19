@@ -19,7 +19,9 @@ function Hero() {
             <NavigateChatroomContext.Provider value={setChatroomId}>
                 <div className="hero">
                     <Header/>
-                    {/* <Profile/> */}
+                    {heroScreen==='profile' &&
+                        <Profile/>
+                    }
                     {heroScreen==='home' &&
                         <Home/>
                     }

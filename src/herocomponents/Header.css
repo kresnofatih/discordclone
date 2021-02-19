@@ -28,3 +28,31 @@
     border: none;
     border-radius: 50ch;
 }
+.navdrawerdiv {
+    height: 100%;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    /* background-color: palevioletred; */
+    background-color: #2C2F33;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+.discordlogo {
+    height: 50px;
+}
+.navdrawermenubtn {
+    width: 360px;
+    margin: 0;
+    padding: 20px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #7289DA;
+    text-align: center;
+}
+.navdrawermenubtn:hover {
+    background-color: #363b42;
+    cursor: pointer;
+}
