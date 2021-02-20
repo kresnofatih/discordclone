@@ -153,6 +153,24 @@
     text-transform: capitalize;
 }
 .gifgrid {
-    height: 300px;
+    max-height: 300px;
     width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.gifsearchbox {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    width: 300px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    /* color: orange; */
+    color: #7289DA;
+    border-bottom: 2px solid #7289DA;
 }

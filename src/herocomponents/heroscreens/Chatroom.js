@@ -139,12 +139,22 @@ function Chatroom({chatroomId}) {
     const navigateToHeroScreen = useContext(NavigateHeroContext);
 
     // open gif searcher
+    const [gifKeyword, setGifKeyword] = useState('')
+    const [hasGifKeyword, setHasGifKeyword] = useState(true)
+    const [gifSearchKeyword, setGifSearchKeyword] = useState('anime')
     const [viewGifDialog, setViewGifDialog] = useState(false)
     const openGifDialog = () => {
         setViewGifDialog(true);
     }
     const closeGifDialog = () => {
         setViewGifDialog(false);
+    }
+    const submitGifKeyword = (e) => {
+        // setHasGifKeyword(false);
+        e.preventDefault();
+        setGifSearchKeyword(gifKeyword);
+        setGifKeyword('');
+        setHasGifKeyword(true);
     }
 
     // functions being run on refresh/change of parameters
@@ -274,14 +284,28 @@ function Chatroom({chatroomId}) {
                             </DialogTitle>
                             <DialogContent>
                                 <div className="gifgrid">
-                                <GridGiphy
-                                    onGifClick={(gif, e)=>{
-                                        e.preventDefault();
-                                        console.log(gif);
-                                        closeGifDialog();
-                                    }}
-                                    searchKeyword="anime cute"
-                                />
+                                <form className="chatform" action="" onSubmit={submitGifKeyword}>
+                                    <input
+                                        className="gifsearchbox"
+                                        onChange={e=>{
+                                            setHasGifKeyword(false);
+                                            setGifKeyword(e.target.value);
+                                        }} 
+                                        value={gifKeyword}
+                                        placeholder="Type Keywords & Press Enter!"
+                                        type="text"
+                                    />
+                                </form>
+                                {hasGifKeyword &&
+                                    <GridGiphy
+                                        onGifClick={(gif, e)=>{
+                                            e.preventDefault();
+                                            console.log(gif);
+                                            closeGifDialog();
+                                        }}
+                                        searchKeyword={gifSearchKeyword}
+                                    />
+                                }
                                 </div>
                             </DialogContent>
                             <DialogActions>
