@@ -105,7 +105,6 @@ function Chatroom({chatroomId}) {
     const sendChat = (e) => {
         e.preventDefault();
         // console.log(chatMsg);
-        setChatMsg('');
         const d = new Date();
         fire
             .firestore()
@@ -118,6 +117,7 @@ function Chatroom({chatroomId}) {
                 timestamp: d.toUTCString(),
                 timestampSeconds: Date.now()
             });
+        setChatMsg('');
     }
     
     // chatlog listener
@@ -155,6 +155,20 @@ function Chatroom({chatroomId}) {
         setGifSearchKeyword(gifKeyword);
         setGifKeyword('');
         setHasGifKeyword(true);
+    }
+    const sendGifChat = (gifMsg)=> {
+        const d = new Date();
+        fire
+            .firestore()
+            .collection('chatrooms')
+            .doc(chatroomInfo.chatroomId)
+            .collection('chats')
+            .add({
+                uid: profile.uid,
+                msg: gifMsg,
+                timestamp: d.toUTCString(),
+                timestampSeconds: Date.now()
+            });
     }
 
     // functions being run on refresh/change of parameters
@@ -300,7 +314,7 @@ function Chatroom({chatroomId}) {
                                     <GridGiphy
                                         onGifClick={(gif, e)=>{
                                             e.preventDefault();
-                                            console.log(gif);
+                                            sendGifChat('discordclonegif:'+gif.images.downsized_medium.url);
                                             closeGifDialog();
                                         }}
                                         searchKeyword={gifSearchKeyword}

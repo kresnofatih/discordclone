@@ -6,6 +6,7 @@ import { grey } from '@material-ui/core/colors'
 
 
 function Chatitem({uid, timestamp, msg}) {
+    // get the user info
     const [userInfo, setUserInfo] = useState('')
     const [hasUserInfo, setHasUserInfo] = useState(false)
     const getUserInfo = async()=>{
@@ -22,22 +23,45 @@ function Chatitem({uid, timestamp, msg}) {
         }
     };
 
+    // identify type of chat content: msg/link/gif
+    const [chatContentType, setChatContentType] = useState('')
+    const identifyContent = (msg) => {
+        if(msg.startsWith('discordclonegif:')){
+            setChatContentType('gif');
+        } else if(msg.startsWith('discordclonelink:')) {
+            setChatContentType('link');
+        } else {
+            setChatContentType('msg');
+        }
+    }
+
     useEffect(()=>{
+        identifyContent(msg);
         getUserInfo();
-    }, [uid]);
+    }, [uid, msg]);
     return (
         <div className="chatitem">
             {hasUserInfo &&
-                <img src={userInfo.photoURL}/>
+                <img className="chatitemuserphoto" src={userInfo.photoURL}/>
             }
             {hasUserInfo &&
                 <div>
                     <p className="chatitem_displayname">{userInfo.displayName}
                         <p className="chatitem_timestamp">{timestamp}</p>
                     </p>
-                    <p className="chatitem_chatmsg">
-                        {msg}
-                    </p>
+                    {chatContentType==='msg' &&
+                        <p className="chatitem_chatmsg">
+                            {msg}
+                        </p>
+                    }
+                    {chatContentType==='link' &&
+                        <a className="chatitem_chatmsg" href={msg.replace('discordclonelink:', '')}>
+                            {msg.replace('discordclonelink:', '')}
+                        </a>
+                    }
+                    {chatContentType==='gif' &&
+                        <img className="chatitemgif" src={msg.replace('discordclonegif:', '')}/>
+                    }
                 </div>
             }
             {!hasUserInfo &&
