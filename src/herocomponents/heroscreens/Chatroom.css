@@ -174,3 +174,9 @@
     color: #7289DA;
     border-bottom: 2px solid #7289DA;
 }
+.chatroom_headersides label:hover {
+    cursor: pointer;
+}
+.hidden_file_input {
+    display: none;
+}

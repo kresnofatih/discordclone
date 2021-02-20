@@ -171,6 +171,33 @@ function Chatroom({chatroomId}) {
             });
     }
 
+    // file link sender
+    const sendFileLinkChat = (e) => {
+        const file = e.target.files[0];
+        const storageRef = fire.storage().ref();
+        const fileRef = storageRef.child('chatrooms/files/'+chatroomInfo.chatroomId+'/'+file.name)
+        fileRef
+            .put(file)
+            .then(()=>{
+                fileRef
+                    .getDownloadURL()
+                    .then(url=>{
+                        const d = new Date();
+                        fire
+                            .firestore()
+                            .collection('chatrooms')
+                            .doc(chatroomInfo.chatroomId)
+                            .collection('chats')
+                            .add({
+                                uid: profile.uid,
+                                msg: 'discordclonelink:'+url,
+                                timestamp: d.toUTCString(),
+                                timestampSeconds: Date.now()
+                            })
+                    })
+            })
+    }
+
     // functions being run on refresh/change of parameters
     useEffect(()=>{
         getChatroomInfo();
@@ -263,7 +290,17 @@ function Chatroom({chatroomId}) {
                 {hasChatroomInfo && hasFriendData && 
                 <div className="chatroom_footer">
                     <div className="chatroom_headersides">
-                        <AddCircleIcon style={{fontSize: 22, color: grey[50]}}/>
+                        <input
+                            className="hidden_file_input"
+                            type="file"
+                            id="fileUploader"
+                            onChange={(e)=>{
+                                sendFileLinkChat(e);
+                            }}
+                        />
+                        <label for="fileUploader">
+                            <AddCircleIcon style={{fontSize: 22, color: grey[50]}}/>
+                        </label>
                         &nbsp;
                         &nbsp;
                         <form className="chatform" action="" onSubmit={sendChat}>

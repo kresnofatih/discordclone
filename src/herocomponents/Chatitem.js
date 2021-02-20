@@ -3,6 +3,7 @@ import './Chatitem.css'
 import fire from '../Fire'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { grey } from '@material-ui/core/colors'
+import DescriptionIcon from '@material-ui/icons/Description';
 
 
 function Chatitem({uid, timestamp, msg}) {
@@ -55,9 +56,21 @@ function Chatitem({uid, timestamp, msg}) {
                         </p>
                     }
                     {chatContentType==='link' &&
-                        <a className="chatitem_chatmsg" href={msg.replace('discordclonelink:', '')}>
-                            {msg.replace('discordclonelink:', '')}
-                        </a>
+                        <div className="chatlinkdiv">
+                            <DescriptionIcon style={{fontSize: 40, color: grey[50]}}/>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <a 
+                                className="chatitem_chatlink" 
+                                href={msg.replace('discordclonelink:', '')}
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                            >
+                                {msg.replace('discordclonelink:', '')}
+                            </a>
+                        </div>
                     }
                     {chatContentType==='gif' &&
                         <img className="chatitemgif" src={msg.replace('discordclonegif:', '')}/>
