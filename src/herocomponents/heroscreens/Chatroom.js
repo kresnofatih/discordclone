@@ -16,6 +16,29 @@ import fire from '../../Fire'
 import Drawer from '@material-ui/core/Drawer';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {Grid} from '@giphy/react-components'
+import {GiphyFetch} from '@giphy/js-fetch-api'
+
+const giphyFetch = new GiphyFetch('GmEpz4LrLGIaULoHRzb42jiIqR35yX8k');
+
+function GridGiphy({onGifClick, searchKeyword}){
+    // const [gifData, setGifData] = useState('')
+    const fetchGifs = (offset) => giphyFetch.search(searchKeyword, {offset, limit: 10});
+    return (
+        <Grid
+            onGifClick={onGifClick}
+            fetchGifs={fetchGifs}
+            width={300}
+            columns={2}
+            gutter={6}
+        />
+    )
+}
 
 function Chatroom({chatroomId}) {
     // personal profile loader
@@ -37,7 +60,7 @@ function Chatroom({chatroomId}) {
             chatroomInfo.chatroomType = chatroominfo.data().chatroomType;
             if(chatroomInfo.chatroomType==='private'){
                 const chatroomMembersCleansed = chatroomInfo.chatroomMembers.filter(id=>id!==profile.uid);
-                console.log(chatroomMembersCleansed);
+                // console.log(chatroomMembersCleansed);
                 // chatroomInfo.chatroomMembers.forEach(id=>id!==profile.uid);
                 getFriendData(chatroomMembersCleansed[0]); // getfriend data from remaining id
                 // console.log(chatroomInfo.chatroomMembers.filter(id=>id!==profile.uid)); // getfriend data from remaining id
@@ -114,6 +137,15 @@ function Chatroom({chatroomId}) {
 
     // navigate to other pages
     const navigateToHeroScreen = useContext(NavigateHeroContext);
+
+    // open gif searcher
+    const [viewGifDialog, setViewGifDialog] = useState(false)
+    const openGifDialog = () => {
+        setViewGifDialog(true);
+    }
+    const closeGifDialog = () => {
+        setViewGifDialog(false);
+    }
 
     // functions being run on refresh/change of parameters
     useEffect(()=>{
@@ -221,7 +253,47 @@ function Chatroom({chatroomId}) {
                         </form>
                     </div>
                     <div className="chatroom_headersides">
-                        <GifIcon style={{fontSize: 40, color: grey[50]}}/>
+                        <label onClick={openGifDialog}>
+                            <GifIcon style={{fontSize: 40, color: grey[50]}}/>
+                        </label>
+                        <Dialog 
+                            open={viewGifDialog} 
+                            onClose={closeGifDialog} 
+                            aria-labelledby="form-dialog-title-gifsender"
+                            PaperProps={{
+                                style: {
+                                    backgroundColor: "#23272A",
+                                    boxShadow: "none"
+                                },
+                            }}
+                        >
+                            <DialogTitle id="form-dialog-title-gifsender">
+                                <p className="dialogtitle1">
+                                    Send a Gif!
+                                </p>
+                            </DialogTitle>
+                            <DialogContent>
+                                <div className="gifgrid">
+                                <GridGiphy
+                                    onGifClick={(gif, e)=>{
+                                        e.preventDefault();
+                                        console.log(gif);
+                                        closeGifDialog();
+                                    }}
+                                    searchKeyword="anime cute"
+                                />
+                                </div>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={()=>{
+                                closeGifDialog();
+                            }} color="primary">
+                                <p className="dialogtitle2">
+                                    Close
+                                </p>
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
                         &nbsp;
                         &nbsp;
                         &nbsp;

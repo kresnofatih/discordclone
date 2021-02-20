@@ -134,3 +134,25 @@
     width: 25px;
     border-radius: 50ch;
 }
+.dialogtitle1 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #7289DA;
+    text-transform: capitalize;
+}
+.dialogtitle2 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-transform: capitalize;
+}
+.gifgrid {
+    height: 300px;
+    width: 300px;
+}
