@@ -4,6 +4,7 @@ import {ProfileContext} from '../App'
 import fire from '../Fire'
 import { grey } from '@material-ui/core/colors'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {NavigateHeroContext, NavigateChatroomContext} from '../Hero'
 
 
 function Chatroombtn({chatroomId}) {
@@ -56,6 +57,10 @@ function Chatroombtn({chatroomId}) {
         chatroomInfo.photoURL = friendData.photoURL;
     }
 
+    // navigate to other pages
+    const navigateToChatroom = useContext(NavigateChatroomContext);
+    const navigateToHeroScreen = useContext(NavigateHeroContext);
+
     useEffect(()=>{
         getChatroomInfo();
     }, [])
@@ -63,17 +68,20 @@ function Chatroombtn({chatroomId}) {
         <label className="chatroombtn">
             {!hasChatroomInfo &&
                 <div className="chatroombtnboxloading">
-                    <CircularProgress style={{color: grey[50]}}/>
+                    <CircularProgress style={{color: grey[50]}} size={14}/>
                 </div>
             }
             {hasChatroomInfo &&
-                <div className="chatroombtnbox">
+                <label className="chatroombtnbox" onClick={()=>{
+                    navigateToChatroom(chatroomId);
+                    navigateToHeroScreen('chatroom');
+                }}>
                     <img src={chatroomInfo.photoURL} />
                     &nbsp;
                     &nbsp;
                     &nbsp;
                     <p>{chatroomInfo.chatroomName}</p>
-                </div>
+                </label>
             }
         </label>
     )

@@ -205,7 +205,7 @@ function Chatroom({chatroomId}) {
     useEffect(()=>{
         getChatroomInfo();
         chatLogListener();
-    }, [profile])
+    }, [profile, chatroomId])
     return (
         <div className="chatroom">
             <Breadcrumb address="Chatroom."/>

@@ -20,7 +20,7 @@
     padding-left: 60px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     font-family: 'Nunito Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
@@ -30,6 +30,7 @@
 }
 .chatroombtnbox:hover {
     background-color: #363b42;
+    cursor: pointer;
 }
 .chatroombtnbox img {
     height: 25px;

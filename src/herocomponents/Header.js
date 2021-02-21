@@ -11,6 +11,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import { indigo } from '@material-ui/core/colors'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Chatroombtn from './Chatroombtn'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 function Header() {
     const profile = useContext(ProfileContext);
@@ -55,7 +56,6 @@ function Header() {
                             </div>
                             <label className="navdrawermenubtn" onClick={()=>{
                                 navigateToHeroScreen('home');
-                                closeNavigateDrawer();
                             }}>
                                 <HomeIcon style={{fontSize: 25, color: indigo[300]}}/>
                                 <p>
@@ -73,7 +73,6 @@ function Header() {
                             </label>
                             <label className="navdrawermenubtn" onClick={()=>{
                                 navigateToHeroScreen('profile');
-                                closeNavigateDrawer();
                             }}>
                                 <AccountBoxIcon style={{fontSize: 25, color: indigo[300]}}/>
                                 <p>
@@ -98,10 +97,11 @@ function Header() {
                     >
                         <div className="navdrawerdiv">
                             <div className="navdrawerlogo">
-                            <img className="discordlogo" src={discordLogo}/>
+                                <img className="discordlogo" src={discordLogo}/>
                             </div>
                             <label className="navdrawermenubtn" onClick={()=>{
-                                closeNavigateDrawer();
+                                closeNavigateChatroom();
+                                openNavigateDrawer();
                             }}>
                                 <ForumIcon style={{fontSize: 25, color: indigo[300]}}/>
                                 <p>
@@ -111,6 +111,15 @@ function Header() {
                             {profile.chatrooms!==undefined && profile.chatrooms.map(id=>(
                                 <Chatroombtn chatroomId={id}/>
                             ))}
+                            <label className="navdrawermenubtn" onClick={()=>{
+                                closeNavigateChatroom();
+                                openNavigateDrawer();
+                            }}>
+                                <ArrowBackIosIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
+                                Back.
+                                </p>
+                            </label>
                         </div>
                     </Drawer>
 
