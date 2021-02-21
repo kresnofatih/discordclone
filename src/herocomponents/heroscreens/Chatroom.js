@@ -67,6 +67,9 @@ function Chatroom({chatroomId}) {
                 // console.log(profile.uid); 
             }
             chatroomInfo.chatroomName = chatroominfo.data().chatroomName;
+            if(chatroominfo.data().photoURL!==undefined){
+                chatroomInfo.photoURL = chatroominfo.data().photoURL;
+            }
             setHasChatroomInfo(true);
         } else {
             console.log('no such data');

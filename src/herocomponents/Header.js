@@ -8,8 +8,9 @@ import {NavigateHeroContext} from '../Hero'
 import HomeIcon from '@material-ui/icons/Home';
 import ForumIcon from '@material-ui/icons/Forum';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import { grey, indigo } from '@material-ui/core/colors'
+import { indigo } from '@material-ui/core/colors'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Chatroombtn from './Chatroombtn'
 
 function Header() {
     const profile = useContext(ProfileContext);
@@ -25,6 +26,15 @@ function Header() {
     }
     // navigate to other pages
     const navigateToHeroScreen = useContext(NavigateHeroContext);
+
+    // navigate chatrooms
+    const [viewNavigateChatroom, setViewNavigateChatroom] = useState(false)
+    const openNavigateChatroom = () => {
+        setViewNavigateChatroom(true)
+    }
+    const closeNavigateChatroom = () => {
+        setViewNavigateChatroom(false)
+    }
 
     return (
         <div className="header">
@@ -53,6 +63,7 @@ function Header() {
                                 </p>
                             </label>
                             <label className="navdrawermenubtn" onClick={()=>{
+                                openNavigateChatroom();
                                 closeNavigateDrawer();
                             }}>
                                 <ForumIcon style={{fontSize: 25, color: indigo[300]}}/>
@@ -77,6 +88,32 @@ function Header() {
                             </label>
                         </div>
                     </Drawer>
+                </React.Fragment>
+                <React.Fragment key='left'>
+                    <Drawer
+                        anchor='left'
+                        open={viewNavigateChatroom}
+                        onClose={closeNavigateChatroom}
+                        BackdropProps={{style: {backgroundColor: 'transparent'}}}
+                    >
+                        <div className="navdrawerdiv">
+                            <div className="navdrawerlogo">
+                            <img className="discordlogo" src={discordLogo}/>
+                            </div>
+                            <label className="navdrawermenubtn" onClick={()=>{
+                                closeNavigateDrawer();
+                            }}>
+                                <ForumIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
+                                Chatrooms.
+                                </p>
+                            </label>
+                            {profile.chatrooms!==undefined && profile.chatrooms.map(id=>(
+                                <Chatroombtn chatroomId={id}/>
+                            ))}
+                        </div>
+                    </Drawer>
+
                 </React.Fragment>
                 <img src={profile.photoURL}/>
             </div>

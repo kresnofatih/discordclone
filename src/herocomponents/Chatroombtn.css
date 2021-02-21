@@ -1,0 +1,42 @@
+.chatroombtnbox {
+    width: 250px;
+    margin: 0;
+    padding: 0px 25px;
+    padding-left: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: orange;
+    align-items: center;
+    /* border-top: 1px solid rgba(255, 255, 255, 0.2); */
+}
+.chatroombtnboxloading {
+    width: 250px;
+    margin: 0;
+    padding: 10px 25px;
+    padding-left: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: orange;
+    align-items: center;
+    /* border-top: 1px solid rgba(255, 255, 255, 0.2); */
+}
+.chatroombtnbox:hover {
+    background-color: #363b42;
+}
+.chatroombtnbox img {
+    height: 25px;
+    width: 25px;
+    border-radius: 50ch;
+}
+.chatroombtn {
+    margin: 0;
+    padding: 0;
+}

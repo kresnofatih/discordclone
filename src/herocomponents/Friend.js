@@ -237,7 +237,7 @@ function Friend({uid, addToGroupEnabled}) {
                         await fire
                                 .firestore()
                                 .collection('users')
-                                .doc(profile.uid)
+                                .doc(uid)
                                 .update({
                                     chatrooms: friendData.chatrooms
                                 }).then(()=>{
