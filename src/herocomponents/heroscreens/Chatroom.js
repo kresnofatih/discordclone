@@ -9,7 +9,6 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import GifIcon from '@material-ui/icons/Gif';
-// import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Chatitem from '../Chatitem';
 import fire from '../../Fire'

@@ -12,6 +12,8 @@ import { indigo } from '@material-ui/core/colors'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Chatroombtn from './Chatroombtn'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import PersonIcon from '@material-ui/icons/Person';
+import GroupIcon from '@material-ui/icons/Group';
 
 function Header() {
     const profile = useContext(ProfileContext);
@@ -111,6 +113,24 @@ function Header() {
                             {profile.chatrooms!==undefined && profile.chatrooms.map(id=>(
                                 <Chatroombtn chatroomId={id}/>
                             ))}
+                            <label className="navdrawermenubtn" onClick={()=>{
+                                closeNavigateChatroom();
+                                navigateToHeroScreen('home');
+                            }}>
+                                <PersonIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
+                                Chat with more friends.
+                                </p>
+                            </label>
+                            <label className="navdrawermenubtn" onClick={()=>{
+                                closeNavigateChatroom();
+                                openNavigateDrawer();
+                            }}>
+                                <GroupIcon style={{fontSize: 25, color: indigo[300]}}/>
+                                <p>
+                                Create New Group.
+                                </p>
+                            </label>
                             <label className="navdrawermenubtn" onClick={()=>{
                                 closeNavigateChatroom();
                                 openNavigateDrawer();
