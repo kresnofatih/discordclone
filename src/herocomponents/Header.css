@@ -72,3 +72,45 @@
 .navigatedrawerbtn:hover {
     cursor: pointer;
 }
+.dialogtitle1 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #7289DA;
+    text-transform: capitalize;
+}
+.dialogtitle2 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-transform: capitalize;
+}
+.newgroupcontent {
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+}
+.newgroupcontentinput {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.newgroupdialoginput {
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: white;
+    background-color: #23272A;
+    border: none;
+    border-bottom: 2px solid #7289DA;
+    outline: none;
+}

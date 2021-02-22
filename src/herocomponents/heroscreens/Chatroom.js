@@ -289,7 +289,7 @@ function Chatroom({chatroomId}) {
                         />
                     ))}
                 </div>
-                {hasChatroomInfo && hasFriendData && 
+                {hasChatroomInfo && 
                 <div className="chatroom_footer">
                     <div className="chatroom_headersides">
                         <input
