@@ -64,11 +64,13 @@
 }
 .chatlinkdiv {
     margin: 0;
+    width: 500px;
     /* padding: 10px; */
     display: flex !important;
     flex-direction: row !important;
     justify-content: flex-start !important;
     align-items: center !important;
+    overflow-x: hidden;
 }
 .chatroom_chatlog {
     padding-left: 20px;
@@ -124,4 +126,24 @@
 }
 .clickablechatitemcomp:hover {
     cursor: pointer;
+}
+
+@media screen and (max-width: 1100px){
+    .chatitemuserphoto {
+        height: 30px;
+        width: 30px;
+    }
+    .chatitem_displayname {
+        font-size: 12px;
+    }
+    .chatitemgif {
+        width: 225px;
+    }
+    .chatlinkdiv {
+        width: 200px;
+    }
+    .chatitem_chatlink {
+        width: 150px !important;
+        overflow-x: hidden;
+    }
 }
