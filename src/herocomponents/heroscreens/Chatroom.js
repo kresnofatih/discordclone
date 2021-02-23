@@ -212,11 +212,68 @@ function Chatroom({chatroomId}) {
         setViewAddMembersToGroup(false)
     }
 
+    // view groupinfo drawer
+    const [viewGroupInfo, setViewGroupInfo] = useState(false)
+    const openGroupInfo = () => {
+        setViewGroupInfo(true)
+    }
+    const closeGroupInfo = () => {
+        setViewGroupInfo(false)
+    }
+    // update group photoURL methods
+    const updateGroupPhotoURLToFirestore = (e) => {
+        const file = e.target.files[0];
+        const storageRef = fire.storage().ref();
+        const d = new Date();
+        const fileRef = storageRef.child('chatrooms/photoURL/'+chatroomId+'/'+d.toLocaleString().replace("/", "_").replace("/", "_").replace(" ", "_"));
+        fileRef
+            .put(file)  // store photo File to Firebase Storage
+            .then(()=>{
+                fileRef
+                    .getDownloadURL()
+                    .then(url=>{
+                        fire
+                            .firestore()
+                            .collection('chatrooms')
+                            .doc(chatroomId)
+                            .update({
+                                photoURL: url
+                            });     // store photo URL to firebase firestore
+                        refreshOnEvent();
+                    });
+            });
+    }
+    const [chatroomUpdates, setChatroomUpdates] = useState(0)
+    const refreshOnEvent=()=> {
+        setChatroomUpdates(chatroomUpdates+1)
+    }
+    // update groupname
+    const [tempGroupName, setTempGroupName] = useState('')
+    const [viewRenameGroup, setViewRenameGroup] = useState(false)
+    const openRenameGroup =()=>{
+        setViewRenameGroup(true)
+    }
+    const closeRenameGroup =()=>{
+        setViewRenameGroup(false)
+    }
+    const renameGroup = async()=>{
+        await fire
+                .firestore()
+                .collection('chatrooms')
+                .doc(chatroomId)
+                .update({
+                    chatroomName: tempGroupName
+                }).then(()=>{
+                    setTempGroupName('');
+                    refreshOnEvent();
+                })
+    }
+
     // functions being run on refresh/change of parameters
     useEffect(()=>{
         getChatroomInfo();
         chatLogListener();
-    }, [profile, chatroomId])
+    }, [profile, chatroomId, chatroomUpdates])
     return (
         <div className="chatroom">
             <Breadcrumb address="Chatroom."/>
@@ -278,21 +335,102 @@ function Chatroom({chatroomId}) {
                 {chatroomInfo.chatroomType==='group' &&
                     <div className="chatroom_header">
                         <div className="chatroom_headersides">
-                            <CodeIcon style={{fontSize: 27, color: grey[50]}}/>
+                            <img className="chatroompic" src={chatroomInfo.photoURL}/>
+                            {/* <CodeIcon style={{fontSize: 27, color: grey[50]}}/> */}
                             &nbsp;
                             &nbsp;
                             <p className="chatroom_name">{chatroomInfo.chatroomName}</p>
                         </div>
                         <div className="chatroom_headersides">
                             <label onClick={()=>{
-                                setViewAddMembersToGroup(true);
+                                openAddMembersToGroup();
                             }}>
                                 <GroupAddIcon style={{fontSize: 27, color: grey[50]}}/>
                             </label>
                             &nbsp;
                             &nbsp;
                             &nbsp;
-                            <GroupIcon style={{fontSize: 24, color: grey[50]}}/>
+                            <React.Fragment key='right'>
+                                <label onClick={openGroupInfo}>
+                                    <GroupIcon style={{fontSize: 25, color: grey[50]}}/>
+                                </label>
+                                <Drawer 
+                                    anchor='right' 
+                                    open={viewGroupInfo} 
+                                    onClose={closeGroupInfo}
+                                    BackdropProps={{style: {backgroundColor: 'transparent'}}}
+                                >
+                                    <div className="drawerdiv">
+                                        <input
+                                            className="hidden_grouppic_input"
+                                            type="file"
+                                            id="grouppicfile"
+                                            onChange={(e)=>{
+                                                updateGroupPhotoURLToFirestore(e);
+                                            }}
+                                        />
+                                        <label for="grouppicfile">
+                                            <img className="drawerfriendphoto" src={chatroomInfo.photoURL}/>
+                                        </label>
+                                        <div className="profile_content_field">
+                                            <p className="profile_content_placeholder">GROUP NAME:</p>
+                                            <label onClick={openRenameGroup}>
+                                                <p className="profile_content_fieldvalue">{chatroomInfo.chatroomName}</p>
+                                            </label>
+                                            <Dialog 
+                                                open={viewRenameGroup} 
+                                                onClose={closeRenameGroup} 
+                                                aria-labelledby="form-dialog-title"
+                                                PaperProps={{
+                                                    style: {
+                                                        backgroundColor: "#23272A",
+                                                        boxShadow: "none"
+                                                    },
+                                                }}
+                                            >
+                                                <DialogTitle id="form-dialog-title">
+                                                    <p className="dialogtitle1">
+                                                        Rename Group
+                                                    </p>
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <div className="renamegroupcontent">
+                                                        <div className="renamegroupcontentinput">
+                                                            <input
+                                                                className="renamegroupdialoginput"
+                                                                type="text"
+                                                                value={tempGroupName}
+                                                                placeholder="Type Group Name.."
+                                                                onChange={(e)=>setTempGroupName(e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                <Button onClick={()=>{
+                                                    closeRenameGroup()
+                                                    setTempGroupName('');
+                                                }} color="primary">
+                                                    <p className="dialogtitle2">
+                                                        Cancel
+                                                    </p>
+                                                </Button>
+                                                <Button onClick={()=>{
+                                                    closeRenameGroup();
+                                                    if(tempGroupName.length>0){
+                                                        renameGroup();
+                                                    };
+                                                }} color="primary">
+                                                    <p className="dialogtitle2">
+                                                        Rename
+                                                    </p>
+                                                </Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </div>
+                                    </div>
+                                </Drawer>
+                            </React.Fragment>
                         </div>
                         <Dialog 
                             open={viewAddMembersToGroup} 
@@ -331,15 +469,7 @@ function Chatroom({chatroomId}) {
                                 closeAddMembersToGroup();
                             }} color="primary">
                                 <p className="dialogtitle2">
-                                    Cancel
-                                </p>
-                            </Button>
-                            <Button onClick={()=>{
-                                //
-                                closeAddMembersToGroup();
-                            }} color="primary">
-                                <p className="dialogtitle2">
-                                    Create
+                                    Done
                                 </p>
                             </Button>
                             </DialogActions>

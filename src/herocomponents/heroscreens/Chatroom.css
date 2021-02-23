@@ -87,6 +87,9 @@
     border-radius: 50ch;
     margin-bottom: 20px;
 }
+.drawerfriendphoto:hover {
+    cursor: pointer;
+}
 .profile_content_field {
     margin-top: 20px;
     padding: 0 20px;
@@ -184,4 +187,31 @@
     width: 450px;
     height: 400px;
     overflow-y: auto;
+}
+.hidden_grouppic_input {
+    display: none;
+}
+.renamegroupcontent {
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+}
+.renamegroupcontentinput {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.renamegroupdialoginput {
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: white;
+    background-color: #23272A;
+    border: none;
+    border-bottom: 2px solid #7289DA;
+    outline: none;
 }

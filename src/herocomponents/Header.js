@@ -226,7 +226,9 @@ function Header() {
                     </Button>
                     <Button onClick={()=>{
                         closeCreateGroupDialog();
-                        createGroup();
+                        if(newGroupName.length>0){
+                            createGroup();
+                        };
                     }} color="primary">
                         <p className="dialogtitle2">
                             Create
