@@ -57,3 +57,27 @@
 .friend_buttons label:hover {
     cursor: pointer;
 }
+
+@media screen and (max-width: 1100px){
+    .friend_displayname {
+        font-size: 12px;
+    }
+    .friend_email {
+        font-size: 10px;
+    }
+    .friend {
+        min-width: 200px;
+        padding: 10px 0px;
+    }
+    .friend_profile img {
+        height: 35px;
+        width: 35px;
+        border-radius: 50ch;
+    }
+    .friend_profiledata {
+        margin-left: 10px;
+    }
+    .friendrequestscontent {
+        width: 250px;
+    }
+}

@@ -108,3 +108,16 @@
     border-bottom: 2px solid #7289DA;
     outline: none;
 }
+
+@media screen and (max-width: 1100px){
+    .profile_content {
+        width: 250px;
+        padding: 30px 20px;
+    }
+    .profile_content_placeholder {
+        font-size:12px !important;
+    }
+    .profile_content_fieldvalue {
+        font-size: 12px !important;
+    }
+}

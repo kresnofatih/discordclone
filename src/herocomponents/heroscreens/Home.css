@@ -121,3 +121,15 @@
     }
     
 }
+
+@media screen and (max-width: 1100px){
+    .home_content {
+        width: 300px;
+    }
+    .addfriendscontent {
+        width: 250px;
+    }
+    .addfriendsdialoginput {
+        width: 200px;
+    }
+}
