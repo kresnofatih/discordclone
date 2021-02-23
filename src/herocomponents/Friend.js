@@ -11,9 +11,8 @@ import fire from '../Fire'
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
-import CancelIcon from '@material-ui/icons/Cancel';
 import firebase from 'firebase'
-import {NavigateChatroomContext, NavigateHeroContext} from '../Hero'
+import {NavigateChatroomContext, NavigateHeroContext, ChatroomIdContext} from '../Hero'
 
 
 function Friend({uid, addToGroupEnabled}) {
@@ -255,6 +254,30 @@ function Friend({uid, addToGroupEnabled}) {
         }
     }
 
+    // add to group
+    const currentChatroomId = useContext(ChatroomIdContext);
+    const addToGroup = async() =>{
+        // console.log(currentChatroomId);
+        await fire
+                .firestore()
+                .collection('chatrooms')
+                .doc(currentChatroomId)
+                .update({
+                    chatroomMembers: firebase.firestore.FieldValue.arrayUnion(uid)
+                }).then(async()=>{
+                    await fire
+                            .firestore()
+                            .collection('users')
+                            .doc(uid)
+                            .update({
+                                chatrooms: firebase.firestore.FieldValue.arrayUnion(currentChatroomId)
+                            }).then(()=>{
+                                setAddedToGroup(true)
+                            })
+                })
+    }
+    const [addedToGroup, setAddedToGroup] = useState(false)
+
     // functions being run on refresh
     useEffect(()=>{
         getFriendData();
@@ -330,10 +353,18 @@ function Friend({uid, addToGroupEnabled}) {
             }
             {friendMode==='addToGroup' &&
                 <div className="friend_buttons">
-                    {/* add to group action */}
-                    <label>
+                    {!addedToGroup &&
+                    <label onClick={()=>{
+                        addToGroup();
+                    }}>
                         <GroupAddIcon style={{fontSize: 27, color: grey[50]}}/>
                     </label>
+                    }
+                    {addedToGroup &&
+                    <label>
+                        <GroupAddIcon style={{fontSize: 27, color: grey[700]}}/>
+                    </label>
+                    }
                 </div>
             }
         </div>

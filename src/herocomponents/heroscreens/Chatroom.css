@@ -180,3 +180,8 @@
 .hidden_file_input {
     display: none;
 }
+.addmemberscontent {
+    width: 450px;
+    height: 400px;
+    overflow-y: auto;
+}

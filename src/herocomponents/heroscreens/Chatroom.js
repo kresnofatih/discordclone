@@ -21,6 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {Grid} from '@giphy/react-components'
+import Friend from '../Friend'
 import {GiphyFetch} from '@giphy/js-fetch-api'
 
 const giphyFetch = new GiphyFetch('GmEpz4LrLGIaULoHRzb42jiIqR35yX8k');
@@ -64,6 +65,8 @@ function Chatroom({chatroomId}) {
                 getFriendData(chatroomMembersCleansed[0]); // getfriend data from remaining id
                 // console.log(chatroomInfo.chatroomMembers.filter(id=>id!==profile.uid)); // getfriend data from remaining id
                 // console.log(profile.uid); 
+            } else {
+                chatroomInfo.chatroomType='group';
             }
             chatroomInfo.chatroomName = chatroominfo.data().chatroomName;
             if(chatroominfo.data().photoURL!==undefined){
@@ -200,6 +203,15 @@ function Chatroom({chatroomId}) {
             })
     }
 
+    // add members to group
+    const [viewAddMembersToGroup, setViewAddMembersToGroup] = useState(false)
+    const openAddMembersToGroup = () => {
+        setViewAddMembersToGroup(true)
+    }
+    const closeAddMembersToGroup = () => {
+        setViewAddMembersToGroup(false)
+    }
+
     // functions being run on refresh/change of parameters
     useEffect(()=>{
         getChatroomInfo();
@@ -272,16 +284,77 @@ function Chatroom({chatroomId}) {
                             <p className="chatroom_name">{chatroomInfo.chatroomName}</p>
                         </div>
                         <div className="chatroom_headersides">
-                            <GroupAddIcon style={{fontSize: 27, color: grey[50]}}/>
+                            <label onClick={()=>{
+                                setViewAddMembersToGroup(true);
+                            }}>
+                                <GroupAddIcon style={{fontSize: 27, color: grey[50]}}/>
+                            </label>
                             &nbsp;
                             &nbsp;
                             &nbsp;
-                            <GroupIcon style={{fontSize: 27, color: grey[50]}}/>
+                            <GroupIcon style={{fontSize: 24, color: grey[50]}}/>
                         </div>
+                        <Dialog 
+                            open={viewAddMembersToGroup} 
+                            onClose={closeAddMembersToGroup} 
+                            aria-labelledby="form-dialog-title"
+                            PaperProps={{
+                                style: {
+                                    backgroundColor: "#23272A",
+                                    boxShadow: "none"
+                                },
+                            }}
+                        >
+                            <DialogTitle id="form-dialog-title">
+                                <p className="dialogtitle1">
+                                    Add Members To Group.
+                                </p>
+                            </DialogTitle>
+                            <DialogContent>
+                                <div className="addmemberscontent">
+                                    {profile.friends.map(id=>{
+                                        const notAddedToGroup = !chatroomInfo
+                                                                    .chatroomMembers
+                                                                    .includes(id);
+                                        return (
+                                            <Friend
+                                                key={id}
+                                                uid={id}
+                                                addToGroupEnabled={notAddedToGroup}
+                                            />
+                                        )
+                                    })}
+                                </div>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={()=>{
+                                closeAddMembersToGroup();
+                            }} color="primary">
+                                <p className="dialogtitle2">
+                                    Cancel
+                                </p>
+                            </Button>
+                            <Button onClick={()=>{
+                                //
+                                closeAddMembersToGroup();
+                            }} color="primary">
+                                <p className="dialogtitle2">
+                                    Create
+                                </p>
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
                     </div>
                 }
                 <div className="chatroom_chatlog">
                     {hasChatroomInfo && hasFriendData && chatLog.map(chat=>(
+                        <Chatitem 
+                            uid={chat.uid}
+                            timestamp={chat.timestamp}
+                            msg={chat.msg}
+                        />
+                    ))}
+                    {hasChatroomInfo && chatroomInfo.chatroomType==='group' && chatLog.map(chat=>(
                         <Chatitem 
                             uid={chat.uid}
                             timestamp={chat.timestamp}
