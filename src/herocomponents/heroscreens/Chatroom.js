@@ -24,7 +24,7 @@ import {Grid} from '@giphy/react-components'
 import Friend from '../Friend'
 import {GiphyFetch} from '@giphy/js-fetch-api'
 
-const giphyFetch = new GiphyFetch('GmEpz4LrLGIaULoHRzb42jiIqR35yX8k');
+const giphyFetch = new GiphyFetch(process.env.REACT_APP_GIPHYAPIKEY);
 
 function GridGiphy({onGifClick, searchKeyword}){
     // const [gifData, setGifData] = useState('')
