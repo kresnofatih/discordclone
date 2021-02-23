@@ -4,6 +4,7 @@ import Entry from './Entry'
 import fire from './Fire'
 import firebase from 'firebase'
 import Hero from './Hero'
+import {Helmet} from 'react-helmet';
 
 // context to provide profile data
 export const ProfileContext = React.createContext() 
@@ -120,6 +121,9 @@ function App() {
 
   return (
     <div className="App">
+      <Helmet>
+        <title>Discord Clone</title>
+      </Helmet>
       {user!=='' ? (
           <ProfileContext.Provider value={profile}>
             <LogoutContext.Provider value={logout}>

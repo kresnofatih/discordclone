@@ -67,6 +67,8 @@
     padding-right: 20px;
     /* height: calc(100vh -261px); */
     overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
     /* background-color: #25282c; */
     background-color:#2C2F33;
 }
