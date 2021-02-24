@@ -111,6 +111,7 @@ function App() {
   const logout = () => {
     updateUserStatusInFirestore(user, 'logout').then(()=>{ // set status to offline before logging out
       fire.auth().signOut();
+      window.location.reload();
     });
   };
 

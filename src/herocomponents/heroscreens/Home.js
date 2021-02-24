@@ -229,11 +229,6 @@ function Home() {
                         addToGroupEnabled={false}
                     />
                 ))}
-                {!hasFriendsList &&
-                    <div className="loading">
-                        <CircularProgress style={{fontSize: 25, color: grey[50]}}/>
-                    </div>
-                }
                 {profile.friends!==undefined && profile.friends.length===0 &&
                     <p className="nofriendsmsg">You have no chat friends yet. Find friends now!</p>
                 }

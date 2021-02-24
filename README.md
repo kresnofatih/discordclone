@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Discord Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Access the deployed the web [app](https://discordclone-2b382.web.app). View the demo of the app from a [video](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2FDiscord%20Clone.mkv?alt=media&token=73c497d8-9179-42dd-afe2-dd7de54bc295).
 
-## Available Scripts
+## About the Project
 
-In the project directory, you can run:
+It is a web application that clones the chatting mechanism the well-known application called 'Discord'. It has a lot of social messenger apps features.
 
-### `npm start`
+### User Authentication by Google Email
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+You can create an account and login instantly if you have a google account. For this web, it is still only accessible by Gmail logins. A preview of the login screen is displayed below.
+![Login Page](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-login.PNG?alt=media&token=bb85a03e-bbbb-4eb0-8fd3-846b81d4ec3e) 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Navigation Drawer
 
-### `npm test`
+Press the discord logo on the top left of the screen to open the navigate drawer.
+![navigate](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-navigate.PNG?alt=media&token=ae5f386d-7664-470f-8613-9da005be3bc2)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Update Profile!
 
-### `npm run build`
+If it's your first time logging in, you will have your gmail username and photo set to your discordclone profile. You can change your profile photo and displayname in the profile page.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Seacrhing for friends by Email
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+After logging in you will be redirected to the home screen. 
+![home screen](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-home.PNG?alt=media&token=084d7816-6d0e-4bf0-b360-9e9249770208)
+You will see the friends you have on your home page. If you want to add more friends, you look them up using their gmails on the 'Add New Friends' button. 
+![Add new Friends](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-addfriends.PNG?alt=media&token=d5e54888-f3e4-4e42-bba8-167b0e2e2f25)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Friend Requests
 
-### `npm run eject`
+After you press add friend, you will send a friend request to that user. You will be given a pending sign when you see that user's friendObject.
+![pending](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-pendingfriendrequests.PNG?alt=media&token=3eb3d868-b6af-4df9-b292-2643aecdadfc)
+The user will be given a friend request notification on the home screen.
+![friendreq notif](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-friendrequestsnotif.PNG?alt=media&token=3ae2b7dc-f8fe-41bd-a1f4-9c0289dffbb0)
+When the friend request logo is pressed, you will see a friend requests dialog. It contains all users that have sent you a friend request.
+![friendreqdialog](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-friendrequestsnotif.PNG?alt=media&token=3ae2b7dc-f8fe-41bd-a1f4-9c0289dffbb0)
+After you have accepted the request, you can start chatting or get them invited into a group chat. If you decline, you will reset your friendStatus to the request sender back as a nonFriend.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Private Chatting
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+You can only private chat with friends, users that have accepted your request or requests you have accepted.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Group Chatting
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+You can create a new group and invite users to join the chat. Here, it is possible you can chat with those you have not yet added as friend. Other members are also automatically granted access to invite their friends.
+![addmemberstogroup](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-addmemberstogroup.PNG?alt=media&token=33c99a7e-710a-4db1-8cd9-89d151bdf92b)
 
-## Learn More
+### Send a Gif or File!
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+You may already know that you can send messages in the chatroom. But you can actually also send files and gifs in the chatroom.
+An example of sending a gif:
+![sendgifs](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-sendgifs.PNG?alt=media&token=b72e2f93-7f10-4d4a-b771-51fd4a393028)
+An example of sending files:
+![sendfiles](https://firebasestorage.googleapis.com/v0/b/discordclone-2b382.appspot.com/o/app%2Fdiscordclone-sendfilestochatroom.PNG?alt=media&token=9797093d-a07b-444c-b94f-237233b07a5f)
