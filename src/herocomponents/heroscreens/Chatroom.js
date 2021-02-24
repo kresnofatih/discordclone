@@ -128,6 +128,7 @@ function Chatroom({chatroomId}) {
     // chatlog listener
     const [chatLog, setChatLog] = useState([])
     const chatLogListener = () => {
+        chatLog.splice(0, chatLog.length);
         fire
             .firestore()
             .collection('chatrooms')
@@ -477,7 +478,7 @@ function Chatroom({chatroomId}) {
                     </div>
                 }
                 <div className="chatroom_chatlog">
-                    {hasChatroomInfo && hasFriendData && chatLog.map(chat=>(
+                    {hasChatroomInfo && hasFriendData && chatroomInfo.chatroomType!=='group' && chatLog.map(chat=>(
                         <Chatitem 
                             uid={chat.uid}
                             timestamp={chat.timestamp}
